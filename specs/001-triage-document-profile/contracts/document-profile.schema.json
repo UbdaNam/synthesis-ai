@@ -26,7 +26,13 @@
     },
     "layout_complexity": {
       "type": "string",
-      "enum": ["single_column", "multi_column", "table_heavy", "figure_heavy", "mixed"]
+      "enum": [
+        "single_column",
+        "multi_column",
+        "table_heavy",
+        "figure_heavy",
+        "mixed"
+      ]
     },
     "language": {
       "type": "object",
@@ -43,7 +49,11 @@
     },
     "estimated_extraction_cost": {
       "type": "string",
-      "enum": ["fast_text_sufficient", "needs_layout_model", "needs_vision_model"]
+      "enum": [
+        "fast_text_sufficient",
+        "needs_layout_model",
+        "needs_vision_model"
+      ]
     },
     "analysis_summary": {
       "type": "object",
