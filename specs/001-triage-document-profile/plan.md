@@ -6,19 +6,19 @@
 ## Summary
 
 Build Stage 1 of the Document Intelligence Refinery as the first LangGraph node that profiles each PDF into a deterministic, strictly typed `DocumentProfile`.  
-The design uses modular classifiers (`PDFStatsAnalyzer`, `OriginClassifier`, `LayoutClassifier`, `DomainClassifierStrategy`, `ExtractionCostResolver`), persists profiles to `.refinery/profiles/{doc_id}.json`, and avoids LLM-based origin/layout decisions.
+The stage computes deterministic profiling metrics, logs auditable profiling entries to `.refinery/profiling_ledger.jsonl`, performs language detection with code+confidence, and routes extraction strategy via origin/layout/cost classification.
 
 ## Technical Context
 
 **Language/Version**: Python >=3.14 (from `pyproject.toml`)  
-**Primary Dependencies**: pydantic, pdfplumber, langgraph (graph orchestration), standard-library JSON/path utilities  
-**Storage**: File-based JSON artifacts under `.refinery/profiles/` and ledger files under `.refinery/`  
-**Testing**: pytest unit tests for origin detection, layout detection, cost mapping, and serialization determinism  
+**Primary Dependencies**: pydantic, pdfplumber, langgraph, pytest, lightweight language detection library (deterministic mode)  
+**Storage**: `.refinery/profiles/{doc_id}.json` for profile artifacts and `.refinery/profiling_ledger.jsonl` for profiling observability logs  
+**Testing**: pytest unit tests for origin detection, layout detection, domain classification, language detection, cost mapping, deterministic rerun equality, and serialization consistency  
 **Target Platform**: Local and server-side Python runtime on Windows/Linux  
 **Project Type**: Python library-style pipeline module with CLI-invokable entrypoint integration  
-**Performance Goals**: Process a typical <=50-page PDF profile in <=5 seconds on standard developer hardware; deterministic repeated output for identical input  
-**Constraints**: No LLM inference for `origin_type` and `layout_complexity`; deterministic and unit-testable output; Stage 1 only (no extraction implementation)  
-**Scale/Scope**: Stage 1 triage for heterogeneous enterprise PDFs, designed to route future Stage 2 strategies
+**Performance Goals**: Process a typical <=50-page PDF profile in <=5 seconds on standard developer hardware and keep profiling log emission non-blocking for successful runs  
+**Constraints**: No LLM inference for `origin_type` and `layout_complexity`; deterministic output; structured typed outputs; Stage 1 only (no extraction implementation)  
+**Scale/Scope**: Stage 1 triage for heterogeneous enterprise PDFs, with known-sample evaluation baseline and deterministic replay behavior
 
 ## Constitution Check
 
@@ -26,21 +26,21 @@ The design uses modular classifiers (`PDFStatsAnalyzer`, `OriginClassifier`, `La
 
 ### Pre-Phase-0 Gate Assessment
 
-- `Architecture`: PASS. Plan enforces typed `DocumentProfile` boundary and interface-based strategy for domain classification.
-- `Testing`: PASS. Plan defines deterministic and unit test coverage for all triage decisions.
-- `Provenance`: PASS (Stage-scoped). Stage 1 emits profile/routing signals only and does not emit extracted answer units; provenance fields are delegated to extraction stages by design.
-- `Escalation Guard`: PASS. Low-confidence or conflicting signals route to higher-cost extraction classes deterministically.
-- `Performance/Cost`: PASS. Fast-text-first routing with deterministic escalation path and cost class output.
-- `Observability`: PASS. Stage logs strategy decision trace and profiling duration for auditability.
+- `Architecture`: PASS. Plan keeps strict modular boundaries with typed `DocumentProfile` and `GraphState` contracts.
+- `Testing`: PASS. Plan includes unit coverage for classification, language detection, determinism, and serialization checks.
+- `Provenance`: PASS (Stage-scoped). Stage 1 does not emit extracted answer units; provenance payload enforcement remains delegated to downstream extraction stages.
+- `Escalation Guard`: PASS. Cost classification remains deterministic and fail-closed to higher-cost strategies when signals are weak/conflicting.
+- `Performance/Cost`: PASS. Fast-text-first routing and deterministic cost mapping are preserved.
+- `Observability`: PASS. Plan mandates `.refinery/profiling_ledger.jsonl` with doc-level metrics, classifications, and processing time.
 
 ### Post-Phase-1 Re-Check
 
-- `Architecture`: PASS. Data model and contracts preserve strict typed boundaries and pluggable domain strategy.
-- `Testing`: PASS. Quickstart and contract artifacts include test cases for deterministic behavior and classifier mapping.
-- `Provenance`: PASS (Stage-scoped, unchanged). No extraction payloads are emitted in Stage 1.
-- `Escalation Guard`: PASS. Cost resolver contract encodes fail-closed escalation.
-- `Performance/Cost`: PASS. Cost class mapping is deterministic and explicit.
-- `Observability`: PASS. Contract captures required triage audit fields and persistence artifact.
+- `Architecture`: PASS. Data model and contracts preserve typed boundaries and pluggable strategy interfaces.
+- `Testing`: PASS. Design artifacts include deterministic repeat-run tests, known-sample classification checks, language tests, and serialization consistency tests.
+- `Provenance`: PASS (Stage-scoped, unchanged).
+- `Escalation Guard`: PASS. Cost resolver remains deterministic with explicit rule outcomes.
+- `Performance/Cost`: PASS. Evaluation tasks verify deterministic routing outcomes on known samples.
+- `Observability`: PASS. Profiling ledger contract includes required audit fields and deterministic metric traceability.
 
 ## Project Structure
 
@@ -66,27 +66,35 @@ src/
 |   |-- graph/
 |   |   `-- triage_node.py
 |   |-- models/
-|   |   `-- document_profile.py
+|   |   |-- document_profile.py
+|   |   `-- graph_state.py
 |   `-- triage/
 |       |-- pdf_stats_analyzer.py
 |       |-- origin_classifier.py
 |       |-- layout_classifier.py
-|       |-- domain/
-|       |   |-- strategy.py
-|       |   `-- keyword_strategy.py
-|       `-- extraction_cost_resolver.py
+|       |-- extraction_cost_resolver.py
+|       |-- profiling_logger.py
+|       |-- language_detector.py
+|       |-- profile_repository.py
+|       `-- domain/
+|           |-- strategy.py
+|           `-- keyword_strategy.py
 
 tests/
 |-- unit/
 |   |-- test_origin_classifier.py
 |   |-- test_layout_classifier.py
+|   |-- test_domain_classifier.py
+|   |-- test_language_detector.py
 |   |-- test_extraction_cost_resolver.py
+|   |-- test_determinism.py
+|   |-- test_known_samples_accuracy.py
 |   `-- test_document_profile_serialization.py
 `-- fixtures/
     `-- pdf_samples/
 ```
 
-**Structure Decision**: Single Python project structure with modular triage package and unit-test-first layout. This matches repository scope and constitution requirements while keeping stage boundaries explicit.
+**Structure Decision**: Single Python project structure with explicit separation of models, triage components, and graph node orchestration to satisfy modularity, determinism, and observability principles.
 
 ## Complexity Tracking
 

@@ -80,3 +80,23 @@ Output:
 Validation rules:
 - Strategy must always return an allowed value.
 - Strategy must be deterministic for identical inputs/configuration.
+
+## 6. ProfilingLedgerEntry
+
+Purpose: Auditable observability record for each profiling run.
+
+Fields:
+- `doc_id` (string, required)
+- `char_density` (array[number], required)
+- `image_ratio` (array[number], required)
+- `layout_signals` (object, required): key deterministic layout metrics used by classifier
+- `origin_type` (enum, required)
+- `layout_complexity` (enum, required)
+- `language` (LanguageSignal, required)
+- `estimated_extraction_cost` (enum, required)
+- `processing_time` (number, required): profiling duration in seconds
+
+Validation rules:
+- `processing_time` must be >= 0.
+- All enum values must be within allowed `DocumentProfile` sets.
+- `char_density` and `image_ratio` lengths must match analyzed page count.

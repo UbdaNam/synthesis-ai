@@ -41,11 +41,25 @@
   - Always layout/vision: rejected due to cost and latency.
 
 ## Decision 5: Persistence and observability contract for Stage 1
-- Decision: Persist `DocumentProfile` to `.refinery/profiles/{doc_id}.json` and emit triage decision trace (input id, classifier outputs, selected cost class, duration, deterministic version) to ledger logging.
+- Decision: Persist `DocumentProfile` to `.refinery/profiles/{doc_id}.json` and emit profiling decision trace to `.refinery/profiling_ledger.jsonl` with `doc_id`, computed metrics (`char_density`, `image_ratio`, layout signals), final classifications, and processing time.
 - Rationale: This supports auditability principle and reproducibility for downstream stages.
 - Alternatives considered:
   - In-memory only profile: rejected because downstream stages require stable artifact.
   - Opaque logging without decision fields: rejected due to constitutional observability needs.
+
+## Decision 7: Deterministic language detection approach
+- Decision: Integrate a lightweight language detection component configured for deterministic behavior and return both language code and confidence score.
+- Rationale: Meets explicit typed output requirements while remaining fast and testable.
+- Alternatives considered:
+  - Heavy multilingual model: rejected due to unnecessary latency/cost for Stage 1.
+  - No confidence output: rejected because confidence is required for downstream routing and audit.
+
+## Decision 8: Evaluation suite requirements
+- Decision: Include explicit evaluation tests for deterministic repeat runs on identical documents, known-sample classification accuracy checks, and serialization consistency checks.
+- Rationale: Aligns implementation readiness with constitution test-discipline and observability requirements.
+- Alternatives considered:
+  - Manual spot checks only: rejected due to weak reproducibility guarantees.
+  - Post-implementation ad hoc evaluation: rejected because acceptance gates must be defined in planning artifacts.
 
 ## Decision 6: LangGraph integration pattern
 - Decision: Use triage as the first graph node with `GraphState` typed model containing `doc_id`, `file_path`, and optional `document_profile`; triage node populates `document_profile` and returns updated state.
