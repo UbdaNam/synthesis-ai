@@ -1,0 +1,92 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synthesis-ai.local/contracts/document-profile.schema.json",
+  "title": "DocumentProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "doc_id",
+    "origin_type",
+    "layout_complexity",
+    "language",
+    "domain_hint",
+    "estimated_extraction_cost",
+    "analysis_summary",
+    "created_at",
+    "deterministic_version"
+  ],
+  "properties": {
+    "doc_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "origin_type": {
+      "type": "string",
+      "enum": ["native_digital", "scanned_image", "mixed", "form_fillable"]
+    },
+    "layout_complexity": {
+      "type": "string",
+      "enum": ["single_column", "multi_column", "table_heavy", "figure_heavy", "mixed"]
+    },
+    "language": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "confidence"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "domain_hint": {
+      "type": "string",
+      "enum": ["financial", "legal", "technical", "medical", "general"]
+    },
+    "estimated_extraction_cost": {
+      "type": "string",
+      "enum": ["fast_text_sufficient", "needs_layout_model", "needs_vision_model"]
+    },
+    "analysis_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_count",
+        "character_count_per_page",
+        "character_density",
+        "image_area_ratio",
+        "font_metadata_presence",
+        "bounding_box_distribution"
+      ],
+      "properties": {
+        "page_count": { "type": "integer", "minimum": 1 },
+        "character_count_per_page": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 }
+        },
+        "character_density": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0.0 }
+        },
+        "image_area_ratio": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+        },
+        "font_metadata_presence": {
+          "type": "array",
+          "items": { "type": "boolean" }
+        },
+        "bounding_box_distribution": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deterministic_version": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
