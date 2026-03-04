@@ -16,7 +16,8 @@ from synthesis_ai.models.document_profile import (
 
 def test_document_profile_matches_schema() -> None:
     schema_path = Path("specs/001-triage-document-profile/contracts/document-profile.schema.json")
-    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    schema_text = schema_path.read_text(encoding="utf-8").lstrip('\ufeff')
+    schema = json.loads(schema_text)
     profile = DocumentProfile(
         doc_id="doc-1",
         origin_type=OriginType.NATIVE_DIGITAL,
