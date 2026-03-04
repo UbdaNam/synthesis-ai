@@ -77,6 +77,11 @@ As a product owner, I need each profile to include a domain hint so future extra
 - **FR-012**: System MUST run this triage stage as the first node in the document-intelligence graph workflow.
 - **FR-013**: System MUST produce deterministic output for identical inputs and configuration.
 - **FR-014**: System MUST expose behavior that can be verified via unit tests for each classification dimension and persistence outcome.
+- **FR-015**: System MUST produce auditable triage outputs that include enough decision evidence for reviewers to trace why each classification and extraction-cost decision was made.
+- **FR-016**: System MUST make classification decisions reproducible and explainable by recording deterministic signal inputs and rule outcomes for each profiled document.
+- **FR-017**: System MUST log profiling metrics for debugging and audit, including character density, image-to-page area ratio, and layout signal summaries used in classification.
+- **FR-018**: System MUST explicitly implement language detection and include dedicated tests validating language code and confidence outputs.
+- **FR-019**: System MUST include evaluation tasks that validate deterministic output across repeated runs and validate correct classification on known document samples.
 
 ## Constitution Alignment *(mandatory)*
 
