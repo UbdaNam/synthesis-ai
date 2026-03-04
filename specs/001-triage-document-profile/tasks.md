@@ -1,9 +1,9 @@
-# Tasks: Triage Agent Document Profiling
+﻿# Tasks: Triage Agent Document Profiling
 
 **Input**: Design documents from `/specs/001-triage-document-profile/`
 **Prerequisites**: plan.md (required), spec.md (required), research.md, data-model.md, contracts/, quickstart.md
 
-**Tests**: Test tasks are included because the spec explicitly requires unit tests and deterministic behavior validation.
+**Tests**: Test tasks are included because the specification explicitly requires unit tests, deterministic behavior, auditability, and evaluation validation.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing.
 
@@ -15,26 +15,28 @@
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-**Purpose**: Initialize project structure and dependencies for Stage 1 implementation.
+**Purpose**: Initialize code/test structure and dependencies for Stage 1.
 
-- [ ] T001 Create package directories for triage stage in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\`, and `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\`
-- [ ] T002 [P] Create test directories for Stage 1 in `C:\Abdu\synthesis-ai\tests\unit\` and `C:\Abdu\synthesis-ai\tests\fixtures\pdf_samples\`
-- [ ] T003 Update dependencies in `C:\Abdu\synthesis-ai\pyproject.toml` to include `pydantic`, `langgraph`, and `pytest`
-- [ ] T004 Create package init files in `C:\Abdu\synthesis-ai\src\synthesis_ai\__init__.py`, `C:\Abdu\synthesis-ai\src\synthesis_ai\models\__init__.py`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\__init__.py`, and `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\__init__.py`
+- [ ] T001 Create Stage 1 package directories in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\`, and `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\`
+- [ ] T002 [P] Create Stage 1 test and fixture directories in `C:\Abdu\synthesis-ai\tests\unit\` and `C:\Abdu\synthesis-ai\tests\fixtures\pdf_samples\`
+- [ ] T003 Update dependencies in `C:\Abdu\synthesis-ai\pyproject.toml` to include `pydantic`, `langgraph`, `pytest`, and a lightweight deterministic language detection library
+- [ ] T004 Create package initialization files in `C:\Abdu\synthesis-ai\src\synthesis_ai\__init__.py`, `C:\Abdu\synthesis-ai\src\synthesis_ai\models\__init__.py`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\__init__.py`, `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\__init__.py`, and `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\__init__.py`
 
 ---
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Core typed contracts and reusable primitives required by all user stories.
+**Purpose**: Core typed contracts and shared primitives required by all stories.
 
 **CRITICAL**: No user story work starts before this phase is complete.
 
-- [ ] T005 Implement `DocumentProfile` enums and models in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\document_profile.py`
-- [ ] T006 Implement `GraphState` model with optional `document_profile` in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\graph_state.py`
+- [ ] T005 Implement typed `DocumentProfile` and nested models in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\document_profile.py`
+- [ ] T006 Implement typed `GraphState` model with optional `document_profile` in `C:\Abdu\synthesis-ai\src\synthesis_ai\models\graph_state.py`
 - [ ] T007 Implement profile persistence utility for `.refinery/profiles/{doc_id}.json` in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profile_repository.py`
-- [ ] T008 [P] Implement deterministic extraction-cost mapping contract in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\extraction_cost_resolver.py`
-- [ ] T009 [P] Create shared triage configuration constants (thresholds, deterministic version) in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\config.py`
+- [ ] T008 [P] Implement deterministic extraction-cost mapping rules in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\extraction_cost_resolver.py`
+- [ ] T009 [P] Implement shared deterministic thresholds/config constants in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\config.py`
+- [ ] T010 Implement profiling ledger writer for `.refinery/profiling_ledger.jsonl` in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profiling_logger.py`
+- [ ] T011 [P] Implement profiling ledger entry schema/formatter in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profiling_ledger_schema.py`
 
 **Checkpoint**: Foundation ready for independent user story implementation.
 
@@ -42,83 +44,89 @@
 
 ## Phase 3: User Story 1 - Route Extraction by Document Type (Priority: P1) MVP
 
-**Goal**: Classify PDF origin and layout deterministically and route extraction cost.
+**Goal**: Deterministically classify document origin/layout and route extraction cost.
 
-**Independent Test**: Run triage on representative native/scanned/mixed/form-fillable PDFs and verify `origin_type`, `layout_complexity`, and `estimated_extraction_cost` are correctly set.
+**Independent Test**: Run triage on representative native/scanned/mixed/form-fillable samples and verify `origin_type`, `layout_complexity`, and `estimated_extraction_cost` are correct.
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Add origin classification unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_origin_classifier.py`
-- [ ] T011 [P] [US1] Add layout classification unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_layout_classifier.py`
-- [ ] T012 [P] [US1] Add extraction cost resolver unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_extraction_cost_resolver.py`
-- [ ] T013 [P] [US1] Add PDF stats analyzer unit tests for character density/image ratio/font metadata/bbox distributions in `C:\Abdu\synthesis-ai\tests\unit\test_pdf_stats_analyzer.py`
+- [ ] T012 [P] [US1] Add PDF stats analyzer unit tests for char count, char density, image ratio, font metadata, and bbox signals in `C:\Abdu\synthesis-ai\tests\unit\test_pdf_stats_analyzer.py`
+- [ ] T013 [P] [US1] Add origin classification unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_origin_classifier.py`
+- [ ] T014 [P] [US1] Add layout classification unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_layout_classifier.py`
+- [ ] T015 [P] [US1] Add extraction-cost resolver unit tests in `C:\Abdu\synthesis-ai\tests\unit\test_extraction_cost_resolver.py`
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Implement `PDFStatsAnalyzer` using `pdfplumber` in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\pdf_stats_analyzer.py`
-- [ ] T015 [US1] Implement `OriginClassifier` with native/scanned/mixed/form_fillable logic in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\origin_classifier.py`
-- [ ] T016 [US1] Implement `LayoutClassifier` with x-clustering/grid-alignment/figure-heavy heuristics in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\layout_classifier.py`
-- [ ] T017 [US1] Finalize deterministic mapping logic for origin+layout to cost in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\extraction_cost_resolver.py`
-- [ ] T018 [US1] Implement Stage 1 `TriageNode` as first LangGraph node in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_pipeline.py`
-- [ ] T019 [US1] Wire analyzer/classifiers/cost resolver into triage pipeline orchestration in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_pipeline.py`
+- [ ] T016 [US1] Implement `PDFStatsAnalyzer` with pdfplumber metric extraction in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\pdf_stats_analyzer.py`
+- [ ] T017 [US1] Implement `OriginClassifier` (`native_digital|scanned_image|mixed|form_fillable`) in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\origin_classifier.py`
+- [ ] T018 [US1] Implement `LayoutClassifier` (x-clustering, grid alignment, figure-heavy logic) in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\layout_classifier.py`
+- [ ] T019 [US1] Implement first-node LangGraph triage node orchestration in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_node.py`
+- [ ] T020 [US1] Integrate analyzer + origin + layout + cost resolver into graph node flow in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_node.py`
 
-**Checkpoint**: US1 independently classifies and routes documents correctly.
+**Checkpoint**: US1 independently classifies and routes documents.
 
 ---
 
 ## Phase 4: User Story 2 - Preserve Deterministic Typed Output (Priority: P2)
 
-**Goal**: Guarantee schema-valid, persisted, deterministic `DocumentProfile` output.
+**Goal**: Persist schema-valid, deterministic profiles and auditable observability logs.
 
-**Independent Test**: Execute triage twice for the same input and confirm persisted JSON equality and schema-valid structure.
+**Independent Test**: Run triage repeatedly on same document and verify identical profile output, schema validity, and correctly formatted profiling ledger entries.
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Add profile persistence tests for `.refinery/profiles/{doc_id}.json` in `C:\Abdu\synthesis-ai\tests\unit\test_profile_repository.py`
-- [ ] T021 [P] [US2] Add deterministic rerun equality tests in `C:\Abdu\synthesis-ai\tests\unit\test_determinism.py`
-- [ ] T022 [P] [US2] Add JSON schema compliance tests against contract schema in `C:\Abdu\synthesis-ai\tests\unit\test_document_profile_schema.py`
-- [ ] T023 [P] [US2] Add graph-state contract tests for typed first-node output in `C:\Abdu\synthesis-ai\tests\unit\test_triage_pipeline_contract.py`
+- [ ] T021 [P] [US2] Add deterministic repeatability test (`same document -> identical DocumentProfile`) in `C:\Abdu\synthesis-ai\tests\unit\test_determinism.py`
+- [ ] T022 [P] [US2] Add JSON schema validation test for `DocumentProfile` in `C:\Abdu\synthesis-ai\tests\unit\test_document_profile_schema.py`
+- [ ] T023 [P] [US2] Add serialization consistency test for profile persistence in `C:\Abdu\synthesis-ai\tests\unit\test_document_profile_serialization.py`
+- [ ] T024 [P] [US2] Add profiling ledger format test in `C:\Abdu\synthesis-ai\tests\unit\test_profiling_ledger_format.py`
+- [ ] T025 [P] [US2] Add profiling processing-time recording test in `C:\Abdu\synthesis-ai\tests\unit\test_profiling_processing_time.py`
 
 ### Implementation for User Story 2
 
-- [ ] T024 [US2] Implement idempotent profile JSON persistence and overwrite semantics in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profile_repository.py`
-- [ ] T025 [US2] Implement deterministic serialization helpers (stable field ordering/encoding) in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\serialization.py`
-- [ ] T026 [US2] Integrate persistence into triage node completion path in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_pipeline.py`
-- [ ] T027 [US2] Add schema validator utility for `DocumentProfile` contract in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\schema_validation.py`
+- [ ] T026 [US2] Implement idempotent profile JSON persistence behavior in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profile_repository.py`
+- [ ] T027 [US2] Implement deterministic profile serialization helper in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\serialization.py`
+- [ ] T028 [US2] Implement observability logging of computed classification signals (`char_density`, `image_ratio`, layout signals) in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profiling_logger.py`
+- [ ] T029 [US2] Implement processing-time capture per document in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\profiling_logger.py`
+- [ ] T030 [US2] Wire profile persistence + profiling ledger write into triage completion path in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_node.py`
 
-**Checkpoint**: US2 independently guarantees deterministic typed persisted output.
+**Checkpoint**: US2 independently guarantees deterministic typed output + observability ledger compliance.
 
 ---
 
-## Phase 5: User Story 3 - Support Domain-Aware Routing Policies (Priority: P3)
+## Phase 5: User Story 3 - Support Domain-Aware and Language-Aware Routing Policies (Priority: P3)
 
-**Goal**: Provide pluggable domain classification with a default keyword strategy.
+**Goal**: Provide pluggable domain strategy and deterministic language detection with confidence.
 
-**Independent Test**: Run triage on domain-focused samples and verify domain hints are valid and strategy-swappable without changing output contract.
+**Independent Test**: Validate allowed domain outputs and deterministic language code+confidence on English and non-English samples.
 
 ### Tests for User Story 3
 
-- [ ] T028 [P] [US3] Add domain strategy interface behavior tests in `C:\Abdu\synthesis-ai\tests\unit\test_domain_strategy.py`
-- [ ] T029 [P] [US3] Add keyword-domain classifier scoring tests in `C:\Abdu\synthesis-ai\tests\unit\test_keyword_domain_classifier.py`
-- [ ] T030 [P] [US3] Add pipeline domain integration tests with strategy injection in `C:\Abdu\synthesis-ai\tests\unit\test_domain_integration.py`
+- [ ] T031 [P] [US3] Add domain strategy interface behavior tests in `C:\Abdu\synthesis-ai\tests\unit\test_domain_strategy.py`
+- [ ] T032 [P] [US3] Add keyword domain scoring tests in `C:\Abdu\synthesis-ai\tests\unit\test_domain_classifier.py`
+- [ ] T033 [P] [US3] Add language detection unit tests for English sample in `C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py`
+- [ ] T034 [P] [US3] Add language detection unit tests for non-English sample in `C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py`
+- [ ] T035 [P] [US3] Add language confidence scoring + determinism tests in `C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py`
 
 ### Implementation for User Story 3
 
-- [ ] T031 [US3] Implement `DomainClassifierStrategy` interface in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\strategy.py`
-- [ ] T032 [US3] Implement keyword-frequency domain classifier in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\keyword_strategy.py`
-- [ ] T033 [US3] Integrate pluggable domain strategy into triage node assembly in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_pipeline.py`
+- [ ] T036 [US3] Implement `DomainClassifierStrategy` interface in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\strategy.py`
+- [ ] T037 [US3] Implement keyword-based domain classifier in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\domain\keyword_strategy.py`
+- [ ] T038 [US3] Implement language detection module returning `code` + `confidence` in `C:\Abdu\synthesis-ai\src\synthesis_ai\triage\language_detector.py`
+- [ ] T039 [US3] Integrate domain + language detection into triage output assembly in `C:\Abdu\synthesis-ai\src\synthesis_ai\graph\triage_node.py`
 
-**Checkpoint**: US3 independently delivers pluggable domain hint classification.
+**Checkpoint**: US3 independently delivers domain + language requirements.
 
 ---
 
-## Phase 6: Polish & Cross-Cutting Concerns
+## Phase 6: Evaluation & Cross-Cutting Validation
 
-**Purpose**: Final alignment, validation, and developer ergonomics across stories.
+**Purpose**: Validate success criteria, constitution auditability, and end-to-end readiness.
 
-- [ ] T034 [P] Add end-to-end Stage 1 smoke test covering all profile dimensions in `C:\Abdu\synthesis-ai\tests\unit\test_triage_end_to_end.py`
-- [ ] T035 [P] Update entrypoint wiring/examples for Stage 1 execution in `C:\Abdu\synthesis-ai\main.py` and `C:\Abdu\synthesis-ai\README.md`
-- [ ] T036 Run and fix full test suite for Stage 1 in `C:\Abdu\synthesis-ai\tests\`
+- [ ] T040 [P] Add known-document classification validation suite in `C:\Abdu\synthesis-ai\tests\unit\test_known_samples_accuracy.py`
+- [ ] T041 [P] Add success-criteria validation test for routing quality targets in `C:\Abdu\synthesis-ai\tests\unit\test_routing_quality.py`
+- [ ] T042 Add end-to-end Stage 1 smoke test including profile + ledger assertions in `C:\Abdu\synthesis-ai\tests\unit\test_triage_end_to_end.py`
+- [ ] T043 [P] Update Stage 1 usage documentation with observability outputs in `C:\Abdu\synthesis-ai\README.md`
+- [ ] T044 Run and stabilize full Stage 1 unit test suite in `C:\Abdu\synthesis-ai\tests\`
 
 ---
 
@@ -129,57 +137,66 @@
 - **Phase 1 (Setup)**: No dependencies.
 - **Phase 2 (Foundational)**: Depends on Phase 1; blocks all user stories.
 - **Phase 3 (US1)**: Depends on Phase 2; recommended MVP.
-- **Phase 4 (US2)**: Depends on Phase 2 and US1 pipeline baseline.
-- **Phase 5 (US3)**: Depends on Phase 2 and US1 pipeline baseline.
-- **Phase 6 (Polish)**: Depends on completion of selected user stories.
+- **Phase 4 (US2)**: Depends on US1 baseline pipeline.
+- **Phase 5 (US3)**: Depends on US1 baseline pipeline.
+- **Phase 6 (Evaluation/Polish)**: Depends on US1 + US2 + US3 completion.
 
 ### User Story Dependencies
 
-- **US1 (P1)**: Starts after Phase 2; no dependency on other stories.
-- **US2 (P2)**: Starts after US1 pipeline exists; focuses on determinism/persistence.
-- **US3 (P3)**: Starts after US1 pipeline exists; domain strategy work is independent of US2.
+- **US1 (P1)**: Starts after foundational phase.
+- **US2 (P2)**: Depends on US1 triage flow and adds observability + deterministic persistence.
+- **US3 (P3)**: Depends on US1 flow and adds domain/language behavior.
 
 ### Dependency Graph
 
-`Setup -> Foundational -> US1 -> (US2 || US3) -> Polish`
+`Setup -> Foundational -> US1 -> (US2 || US3) -> Evaluation/Polish`
 
 ---
 
 ## Parallel Execution Opportunities
 
 - **Setup**: `T002` and `T004` can run in parallel after `T001`.
-- **Foundational**: `T008` and `T009` can run in parallel after `T005/T006/T007` scaffolding decisions.
-- **US1**: `T010`, `T011`, `T012`, `T013` can run in parallel; then `T014`, `T015`, `T016` can run in parallel before `T018/T019`.
-- **US2**: `T020`, `T021`, `T022`, `T023` can run in parallel; `T024`, `T025`, `T027` can run in parallel before `T026`.
-- **US3**: `T028`, `T029`, `T030` can run in parallel; `T031` and `T032` can run in parallel before `T033`.
+- **Foundational**: `T008`, `T009`, `T011` can run in parallel after `T005-T007/T010` decisions are fixed.
+- **US1**: `T012-T015` can run in parallel; then `T016-T018` can run in parallel before `T019-T020`.
+- **US2**: `T021-T025` can run in parallel; `T026-T029` can run in parallel before `T030`.
+- **US3**: `T031-T035` can run in parallel; `T036-T038` can run in parallel before `T039`.
+- **Evaluation**: `T040`, `T041`, `T043` can run in parallel before `T042` and `T044`.
 
 ## Parallel Example: User Story 1
 
 ```text
-Task: "T010 [US1] Add origin classification unit tests in C:\Abdu\synthesis-ai\tests\unit\test_origin_classifier.py"
-Task: "T011 [US1] Add layout classification unit tests in C:\Abdu\synthesis-ai\tests\unit\test_layout_classifier.py"
-Task: "T012 [US1] Add extraction cost resolver unit tests in C:\Abdu\synthesis-ai\tests\unit\test_extraction_cost_resolver.py"
-Task: "T013 [US1] Add PDF stats analyzer unit tests in C:\Abdu\synthesis-ai\tests\unit\test_pdf_stats_analyzer.py"
+Task: "T012 [US1] Add PDF stats analyzer unit tests in C:\Abdu\synthesis-ai\tests\unit\test_pdf_stats_analyzer.py"
+Task: "T013 [US1] Add origin classification unit tests in C:\Abdu\synthesis-ai\tests\unit\test_origin_classifier.py"
+Task: "T014 [US1] Add layout classification unit tests in C:\Abdu\synthesis-ai\tests\unit\test_layout_classifier.py"
+Task: "T015 [US1] Add extraction-cost resolver unit tests in C:\Abdu\synthesis-ai\tests\unit\test_extraction_cost_resolver.py"
 ```
 
 ## Parallel Example: User Story 2
 
 ```text
-Task: "T020 [US2] Add profile persistence tests in C:\Abdu\synthesis-ai\tests\unit\test_profile_repository.py"
-Task: "T021 [US2] Add deterministic rerun equality tests in C:\Abdu\synthesis-ai\tests\unit\test_determinism.py"
-Task: "T022 [US2] Add schema compliance tests in C:\Abdu\synthesis-ai\tests\unit\test_document_profile_schema.py"
-Task: "T023 [US2] Add graph-state contract tests in C:\Abdu\synthesis-ai\tests\unit\test_triage_pipeline_contract.py"
+Task: "T021 [US2] Add deterministic repeatability test in C:\Abdu\synthesis-ai\tests\unit\test_determinism.py"
+Task: "T022 [US2] Add JSON schema validation test in C:\Abdu\synthesis-ai\tests\unit\test_document_profile_schema.py"
+Task: "T024 [US2] Add profiling ledger format test in C:\Abdu\synthesis-ai\tests\unit\test_profiling_ledger_format.py"
+Task: "T025 [US2] Add processing-time recording test in C:\Abdu\synthesis-ai\tests\unit\test_profiling_processing_time.py"
 ```
 
 ## Parallel Example: User Story 3
 
 ```text
-Task: "T028 [US3] Add domain strategy interface tests in C:\Abdu\synthesis-ai\tests\unit\test_domain_strategy.py"
-Task: "T029 [US3] Add keyword-domain classifier tests in C:\Abdu\synthesis-ai\tests\unit\test_keyword_domain_classifier.py"
-Task: "T030 [US3] Add domain integration tests in C:\Abdu\synthesis-ai\tests\unit\test_domain_integration.py"
+Task: "T033 [US3] Add language detection unit tests for English sample in C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py"
+Task: "T034 [US3] Add language detection unit tests for non-English sample in C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py"
+Task: "T035 [US3] Add language confidence determinism tests in C:\Abdu\synthesis-ai\tests\unit\test_language_detector.py"
+Task: "T031 [US3] Add domain strategy interface tests in C:\Abdu\synthesis-ai\tests\unit\test_domain_strategy.py"
 ```
 
 ---
+
+## Requirement-to-Task Mapping (Explicit Alignment)
+
+- **Language detection requirement (FR-004, FR-018)**: `T033`, `T034`, `T035`, `T038`, `T039`
+- **Observability requirement (FR-015, FR-017)**: `T010`, `T011`, `T024`, `T028`, `T029`, `T030`, `T042`
+- **Constitution auditability principles (VI, Delivery Gate)**: `T010`, `T011`, `T024`, `T028`, `T029`, `T040`, `T042`, `T044`
+- **Success criteria validation (SC-001, SC-002, SC-003, SC-004)**: `T021`, `T022`, `T023`, `T040`, `T041`, `T044`
 
 ## Implementation Strategy
 
@@ -187,16 +204,15 @@ Task: "T030 [US3] Add domain integration tests in C:\Abdu\synthesis-ai\tests\uni
 
 1. Complete Phase 1 and Phase 2.
 2. Complete Phase 3 (US1).
-3. Validate US1 independent test criteria with known documents.
+3. Validate US1 independent test criteria on known core samples.
 4. Stop for MVP review.
 
 ### Incremental Delivery
 
-1. Add US2 for deterministic persistence and schema compliance.
-2. Add US3 for pluggable domain hinting.
-3. Execute Phase 6 polish and final full-suite validation.
+1. Add US2 for deterministic persistence and profiling observability ledger.
+2. Add US3 for pluggable domain + deterministic language detection.
+3. Complete Phase 6 evaluation suite and final stabilization.
 
 ### Suggested MVP Scope
 
-- **Recommended MVP**: US1 only (origin/layout/cost routing as first LangGraph node).
-
+- **Recommended MVP**: US1 only (origin/layout/cost routing in first LangGraph node).
