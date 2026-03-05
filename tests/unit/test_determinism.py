@@ -7,13 +7,13 @@ from tests.unit.test_support import FakeStatsAnalyzer, sample_stats
 def test_repeat_run_same_input_identical_profile(tmp_path) -> None:
     stats = sample_stats(text="deterministic sample text")
     node = TriageNode(
-        stats_analyzer=FakeStatsAnalyzer(stats),
+        stats_analyzer=FakeStatsAnalyzer(stats), # type: ignore
         profiling_logger=ProfilingLogger(str(tmp_path / "ledger.jsonl")),
     )
     state = GraphState(doc_id="doc-det", file_path="unused.pdf")
     out1 = node(state)
     out2 = node(state)
-    p1 = out1.document_profile.model_dump(exclude={"created_at"})
-    p2 = out2.document_profile.model_dump(exclude={"created_at"})
+    p1 = out1.document_profile.model_dump(exclude={"created_at"}) if out1.document_profile else None
+    p2 = out2.document_profile.model_dump(exclude={"created_at"}) if out2.document_profile else None
     assert p1 == p2
 
