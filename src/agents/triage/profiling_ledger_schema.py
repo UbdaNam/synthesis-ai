@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from models.document_profile import (
+from src.models.document_profile import (
     EstimatedExtractionCost,
     LanguageSignal,
     LayoutComplexity,

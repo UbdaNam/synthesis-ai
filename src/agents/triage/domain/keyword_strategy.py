@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ...models.document_profile import DomainHint
+from src.models.document_profile import DomainHint
 
 
 class KeywordDomainClassifier:
