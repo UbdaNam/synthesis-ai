@@ -1,0 +1,32 @@
+{
+  "analysis_summary": {
+    "bounding_box_distribution": {
+      "grid_alignment_score": 1.0,
+      "x_cluster_count": 1.0
+    },
+    "character_count_per_page": [
+      4319
+    ],
+    "character_density": [
+      0.007001180101670298
+    ],
+    "font_metadata_presence": [
+      true
+    ],
+    "image_area_ratio": [
+      0.0
+    ],
+    "page_count": 1
+  },
+  "created_at": "2026-03-05T04:03:59.300407+00:00",
+  "deterministic_version": "triage-v1",
+  "doc_id": "background-checks",
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "needs_layout_model",
+  "language": {
+    "code": "en",
+    "confidence": 0.9999963449995868
+  },
+  "layout_complexity": "table_heavy",
+  "origin_type": "native_digital"
+}

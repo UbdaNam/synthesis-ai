@@ -1,0 +1,2 @@
+"""Synthesis AI package."""
+

@@ -1,0 +1,32 @@
+{
+  "analysis_summary": {
+    "bounding_box_distribution": {
+      "grid_alignment_score": 0.1,
+      "x_cluster_count": 1.0
+    },
+    "character_count_per_page": [
+      200
+    ],
+    "character_density": [
+      0.003
+    ],
+    "font_metadata_presence": [
+      true
+    ],
+    "image_area_ratio": [
+      0.1
+    ],
+    "page_count": 1
+  },
+  "created_at": "2026-03-05T03:52:50.120437+00:00",
+  "deterministic_version": "triage-v1",
+  "doc_id": "doc-det",
+  "domain_hint": "general",
+  "estimated_extraction_cost": "fast_text_sufficient",
+  "language": {
+    "code": "ro",
+    "confidence": 0.9999928314464239
+  },
+  "layout_complexity": "single_column",
+  "origin_type": "native_digital"
+}
