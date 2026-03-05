@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ..models.document_profile import EstimatedExtractionCost, LayoutComplexity, OriginType
+from models.document_profile import EstimatedExtractionCost, LayoutComplexity, OriginType
 
 
 class ExtractionCostResolver:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from ..models.document_profile import DocumentProfile
+from models.document_profile import DocumentProfile
 
 
 def serialize_profile_deterministic(profile: DocumentProfile) -> str:

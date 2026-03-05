@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from .config import FIGURE_HEAVY_IMAGE_RATIO_MIN, MULTI_COLUMN_CLUSTER_MIN, TABLE_HEAVY_GRID_SCORE_MIN
 from .pdf_stats_analyzer import PDFStats
-from ..models.document_profile import LayoutComplexity, OriginType
+from models.document_profile import LayoutComplexity, OriginType
 
 
 class LayoutClassifier:

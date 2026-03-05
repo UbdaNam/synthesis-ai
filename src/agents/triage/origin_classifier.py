@@ -7,7 +7,7 @@ from .config import (
     SCANNED_IMAGE_RATIO_MIN,
 )
 from .pdf_stats_analyzer import PDFStats
-from ..models.document_profile import OriginType
+from models.document_profile import OriginType
 
 
 class OriginClassifier:

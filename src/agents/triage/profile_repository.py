@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ..models.document_profile import DocumentProfile
+from models.document_profile import DocumentProfile
 
 
 class ProfileRepository:
