@@ -1,13 +1,13 @@
 import json
 
-from synthesis_ai.models.document_profile import (
+from src.models.document_profile import (
     EstimatedExtractionCost,
     LanguageSignal,
     LayoutComplexity,
     OriginType,
 )
-from synthesis_ai.triage.profiling_ledger_schema import ProfilingLedgerEntry
-from synthesis_ai.triage.profiling_logger import ProfilingLogger
+from src.agents.triage.profiling_ledger_schema import ProfilingLedgerEntry
+from src.agents.triage.profiling_logger import ProfilingLogger
 
 
 def test_profiling_ledger_entry_is_jsonl_and_well_formed(tmp_path) -> None:

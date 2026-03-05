@@ -1,6 +1,6 @@
 import json
 
-from synthesis_ai.models.document_profile import (
+from src.models.document_profile import (
     AnalysisSummary,
     DocumentProfile,
     DomainHint,
@@ -9,7 +9,7 @@ from synthesis_ai.models.document_profile import (
     LayoutComplexity,
     OriginType,
 )
-from synthesis_ai.triage.serialization import serialize_profile_deterministic
+from src.agents.triage.serialization import serialize_profile_deterministic
 
 
 def make_profile() -> DocumentProfile:

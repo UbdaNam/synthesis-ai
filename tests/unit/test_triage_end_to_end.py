@@ -1,6 +1,6 @@
-from synthesis_ai.graph.triage_node import TriageNode
-from synthesis_ai.models.graph_state import GraphState
-from synthesis_ai.triage.profiling_logger import ProfilingLogger
+from src.graph.triage_node import TriageNode
+from src.models.graph_state import GraphState
+from src.agents.triage.profiling_logger import ProfilingLogger
 from tests.unit.test_support import FakeStatsAnalyzer, sample_stats
 
 
@@ -8,7 +8,7 @@ def test_stage1_end_to_end_profile_and_ledger(tmp_path) -> None:
     profile_dir = tmp_path / "profiles"
     ledger = tmp_path / "profiling_ledger.jsonl"
 
-    from synthesis_ai.triage.profile_repository import ProfileRepository
+    from src.agents.triage.profile_repository import ProfileRepository
 
     node = TriageNode(
         stats_analyzer=FakeStatsAnalyzer(sample_stats(text="api module architecture")),

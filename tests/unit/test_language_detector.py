@@ -1,4 +1,4 @@
-from synthesis_ai.triage.language_detector import LanguageDetector
+from src.agents.triage.language_detector import LanguageDetector
 
 
 def test_language_detection_english_sample() -> None:

@@ -1,6 +1,6 @@
 import json
 
-from synthesis_ai.models.document_profile import (
+from src.models.document_profile import (
     AnalysisSummary,
     DocumentProfile,
     DomainHint,
@@ -9,7 +9,7 @@ from synthesis_ai.models.document_profile import (
     LayoutComplexity,
     OriginType,
 )
-from synthesis_ai.triage.profile_repository import ProfileRepository
+from src.agents.triage.profile_repository import ProfileRepository
 
 
 def test_profile_repository_saves_json(tmp_path) -> None:

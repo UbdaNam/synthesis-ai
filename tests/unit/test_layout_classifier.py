@@ -1,6 +1,6 @@
-from synthesis_ai.models.document_profile import LayoutComplexity, OriginType
-from synthesis_ai.triage.layout_classifier import LayoutClassifier
-from synthesis_ai.triage.pdf_stats_analyzer import PDFStats
+from src.models.document_profile import LayoutComplexity, OriginType
+from src.agents.triage.layout_classifier import LayoutClassifier
+from src.agents.triage.pdf_stats_analyzer import PDFStats
 
 
 def make_stats(image_ratio: float, clusters: float, grid: float, chars: int = 100) -> PDFStats:

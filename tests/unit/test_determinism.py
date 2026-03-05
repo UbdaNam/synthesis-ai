@@ -1,6 +1,6 @@
-from synthesis_ai.graph.triage_node import TriageNode
-from synthesis_ai.models.graph_state import GraphState
-from synthesis_ai.triage.profiling_logger import ProfilingLogger
+from src.graph.triage_node import TriageNode
+from src.models.graph_state import GraphState
+from src.agents.triage.profiling_logger import ProfilingLogger
 from tests.unit.test_support import FakeStatsAnalyzer, sample_stats
 
 

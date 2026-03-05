@@ -1,5 +1,5 @@
-from synthesis_ai.models.document_profile import EstimatedExtractionCost, LayoutComplexity, OriginType
-from synthesis_ai.triage.extraction_cost_resolver import ExtractionCostResolver
+from src.models.document_profile import EstimatedExtractionCost, LayoutComplexity, OriginType
+from src.agents.triage.extraction_cost_resolver import ExtractionCostResolver
 
 
 def test_cost_native_single_column_fast() -> None:

@@ -1,4 +1,4 @@
-from synthesis_ai.triage.pdf_stats_analyzer import PDFStats
+from src.agents.triage.pdf_stats_analyzer import PDFStats
 
 
 def sample_stats(text: str = "sample text", image_ratio: float = 0.1, cluster: float = 1.0) -> PDFStats:

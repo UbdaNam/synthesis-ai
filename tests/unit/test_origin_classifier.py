@@ -1,6 +1,6 @@
-from synthesis_ai.models.document_profile import OriginType
-from synthesis_ai.triage.origin_classifier import OriginClassifier
-from synthesis_ai.triage.pdf_stats_analyzer import PDFStats
+from src.models.document_profile import OriginType
+from src.agents.triage.origin_classifier import OriginClassifier
+from src.agents.triage.pdf_stats_analyzer import PDFStats
 
 
 def build_stats(char_count: int, density: float, image_ratio: float, acroform: bool = False) -> PDFStats:

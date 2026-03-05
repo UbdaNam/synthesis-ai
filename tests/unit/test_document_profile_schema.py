@@ -3,7 +3,7 @@ from pathlib import Path
 
 from jsonschema import validate
 
-from synthesis_ai.models.document_profile import (
+from src.models.document_profile import (
     AnalysisSummary,
     DocumentProfile,
     DomainHint,

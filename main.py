@@ -5,8 +5,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from graph.triage_node import TriageNode
-from models.graph_state import GraphState
+from src.graph.triage_node import TriageNode
+from src.models.graph_state import GraphState
 
 
 def main() -> None:

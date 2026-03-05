@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from synthesis_ai.triage.pdf_stats_analyzer import PDFStatsAnalyzer
+from src.agents.triage.pdf_stats_analyzer import PDFStatsAnalyzer
 
 
 def test_pdf_stats_analyzer_metrics_shapes() -> None:
