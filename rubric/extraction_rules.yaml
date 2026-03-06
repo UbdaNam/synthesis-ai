@@ -1,0 +1,24 @@
+﻿triage:
+  deterministic_version: triage-v1
+  origin_thresholds:
+    native_char_density_min: 0.002
+    native_image_ratio_max: 0.20
+    scanned_char_count_max: 20
+    scanned_image_ratio_min: 0.60
+  layout_thresholds:
+    multi_column_x_clusters_min: 2
+    table_grid_score_min: 0.35
+    figure_heavy_image_ratio_min: 0.45
+  language:
+    fallback_code: und
+    fallback_confidence: 0.50
+  domain_keywords:
+    financial: [balance, invoice, revenue, tax]
+    legal: [agreement, clause, contract, statute]
+    technical: [architecture, api, module, protocol]
+    medical: [diagnosis, patient, treatment, clinical]
+  cost_mapping:
+    scanned_image: needs_vision_model
+    figure_heavy: needs_vision_model
+    layout_complex: needs_layout_model
+    default: fast_text_sufficient

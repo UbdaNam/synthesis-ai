@@ -1,102 +1,76 @@
-﻿# Data Model: Stage 1 Triage Agent
+﻿# Data Model: Stage 1 Triage Agent (Challenge Structure)
 
-## 1. GraphState
+## 1. DocumentProfile
 
-Purpose: Shared LangGraph state for Stage 1 entry and downstream handoff.
-
-Fields:
-- `doc_id` (string, required): Stable document identifier used for profile persistence path resolution.
-- `file_path` (string, required): Absolute or repository-relative path to source PDF.
-- `document_profile` (DocumentProfile, optional initially): Populated by triage node.
-
-Relationships:
-- One `GraphState` has zero or one `DocumentProfile` before triage.
-- One `GraphState` has exactly one `DocumentProfile` after successful triage.
-
-Validation rules:
-- `doc_id` must be non-empty and filesystem-safe for profile filename.
-- `file_path` must reference an existing readable PDF.
-
-State transitions:
-- `initial` -> `profiled` when triage completes and `document_profile` is assigned.
-
-## 2. DocumentProfile
-
-Purpose: Deterministic typed classification payload controlling extraction strategy routing.
+Purpose: Deterministic Stage 1 classification payload for downstream extraction strategy selection.
 
 Fields:
 - `doc_id` (string, required)
-- `origin_type` (enum, required): `native_digital | scanned_image | mixed | form_fillable`
-- `layout_complexity` (enum, required): `single_column | multi_column | table_heavy | figure_heavy | mixed`
-- `language` (LanguageSignal, required)
-- `domain_hint` (enum, required): `financial | legal | technical | medical | general`
-- `estimated_extraction_cost` (enum, required): `fast_text_sufficient | needs_layout_model | needs_vision_model`
-- `analysis_summary` (AnalysisSummary, required)
-- `created_at` (string datetime, required)
-- `deterministic_version` (string, required): classifier ruleset/version identifier
+- `origin_type` (enum): `native_digital | scanned_image | mixed | form_fillable`
+- `layout_complexity` (enum): `single_column | multi_column | table_heavy | figure_heavy | mixed`
+- `language` (`LanguageSignal`, required)
+- `domain_hint` (enum): `financial | legal | technical | medical | general`
+- `estimated_extraction_cost` (enum): `fast_text_sufficient | needs_layout_model | needs_vision_model`
+- `deterministic_version` (string)
 
 Validation rules:
-- All enum values must be in allowed sets.
-- `analysis_summary.page_count` must be >= 1.
+- Enum values must be from allowed sets.
 - `language.confidence` must be in `[0.0, 1.0]`.
-- `doc_id` must match `GraphState.doc_id`.
+- Output must be deterministic for identical input + config.
+
+## 2. GraphState
+
+Purpose: LangGraph-compatible state for Stage 1 boundary (without Stage 2 expansion).
+
+Fields:
+- `doc_id` (string, required)
+- `file_path` (string, required)
+- `document_profile` (`DocumentProfile`, optional before triage, required after triage)
+
+State transition:
+- `initial` -> `profiled`
+
+Runtime note:
+- `GraphState` is the runtime I/O type for `src/graph/graph.py`.
 
 ## 3. LanguageSignal
 
 Fields:
-- `code` (string, required): BCP-47 or ISO language code
-- `confidence` (number, required): range `[0.0, 1.0]`
+- `code` (string)
+- `confidence` (float, `[0.0, 1.0]`)
 
-Validation rules:
-- `code` not empty.
-- `confidence` within inclusive range.
+## 4. ProfilingSignalSummary
 
-## 4. AnalysisSummary
-
-Purpose: Deterministic feature signals used for auditability and testing.
+Purpose: Captures deterministic classification inputs for explainability and audit.
 
 Fields:
-- `page_count` (integer, required)
-- `character_count_per_page` (array[int], required)
-- `character_density` (array[number], required)
-- `image_area_ratio` (array[number], required)
-- `font_metadata_presence` (array[boolean], required)
-- `bounding_box_distribution` (object, required): summarized geometric stats
+- `char_density` (array[number])
+- `image_ratio` (array[number])
+- `font_metadata_presence` (array[bool])
+- `layout_signals` (object)
 
 Validation rules:
-- Array lengths must equal `page_count`.
-- Ratio values must be in `[0.0, 1.0]`.
+- Array lengths must match analyzed page count.
 
-## 5. DomainClassifierStrategy (interface contract)
+## 5. ProfilingEvidenceEntry (Stage 1 triage event)
 
-Purpose: Pluggable strategy abstraction for `domain_hint`.
-
-Input:
-- Document text/features summary
-
-Output:
-- One enum value from `financial|legal|technical|medical|general`
-
-Validation rules:
-- Strategy must always return an allowed value.
-- Strategy must be deterministic for identical inputs/configuration.
-
-## 6. ProfilingLedgerEntry
-
-Purpose: Auditable observability record for each profiling run.
+Purpose: Audit record written to `.refinery/profiling_ledger.jsonl`.
 
 Fields:
-- `doc_id` (string, required)
-- `char_density` (array[number], required)
-- `image_ratio` (array[number], required)
-- `layout_signals` (object, required): key deterministic layout metrics used by classifier
-- `origin_type` (enum, required)
-- `layout_complexity` (enum, required)
-- `language` (LanguageSignal, required)
-- `estimated_extraction_cost` (enum, required)
-- `processing_time` (number, required): profiling duration in seconds
+- `doc_id`
+- `char_density`
+- `image_ratio`
+- `font_metadata_presence`
+- `layout_signals`
+- `origin_type`
+- `layout_complexity`
+- `language`
+- `domain_hint`
+- `estimated_extraction_cost`
+- `processing_time`
+- `threshold_rule_reference`
 
 Validation rules:
-- `processing_time` must be >= 0.
-- All enum values must be within allowed `DocumentProfile` sets.
-- `char_density` and `image_ratio` lengths must match analyzed page count.
+- `processing_time >= 0`
+- All classification fields must be valid profile enum values.
+

@@ -1,0 +1,12 @@
+{
+  "deterministic_version": "triage-v1",
+  "doc_id": "tax_expenditure_ethiopia_2021_22",
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "needs_layout_model",
+  "language": {
+    "code": "en",
+    "confidence": 0.9999979572380834
+  },
+  "layout_complexity": "mixed",
+  "origin_type": "native_digital"
+}
