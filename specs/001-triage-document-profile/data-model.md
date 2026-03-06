@@ -31,7 +31,7 @@ State transition:
 - `initial` -> `profiled`
 
 Runtime note:
-- `GraphState` is the runtime I/O type for `src/graph/stage1_graph.py`.
+- `GraphState` is the runtime I/O type for `src/graph/graph.py`.
 
 ## 3. LanguageSignal
 
@@ -73,3 +73,4 @@ Fields:
 Validation rules:
 - `processing_time >= 0`
 - All classification fields must be valid profile enum values.
+

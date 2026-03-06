@@ -1,6 +1,6 @@
 {
   "deterministic_version": "triage-v1",
-  "doc_id": "background-checks",
+  "doc_id": "smoke-main",
   "domain_hint": "general",
   "estimated_extraction_cost": "needs_layout_model",
   "language": {

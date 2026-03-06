@@ -11,7 +11,7 @@
 - `src/models/document_profile.py`
 - `src/models/graph_state.py`
 - `src/agents/triage.py`
-- `src/graph/stage1_graph.py`
+- `src/graph/graph.py`
 - `rubric/extraction_rules.yaml`
 - `.refinery/profiles/`
 - `.refinery/profiling_ledger.jsonl`
@@ -21,7 +21,7 @@
 
 1. Define typed models in `src/models/`.
 2. Implement triage orchestration logic in `src/agents/triage.py`.
-3. Implement graph assembly in `src/graph/stage1_graph.py`.
+3. Implement graph assembly in `src/graph/graph.py`.
 4. Load thresholds/rules from `rubric/extraction_rules.yaml`.
 5. Classify origin/layout/language/domain/cost deterministically.
 6. Persist profile JSON to `.refinery/profiles/{doc_id}.json`.
@@ -55,7 +55,7 @@ Required tests:
 
 ## Acceptance Checks
 
-- Graph compiles from `src/graph/stage1_graph.py` with `triage` as entrypoint.
+- Graph compiles from `src/graph/graph.py` with `triage` as entrypoint.
 - `main.py` invokes compiled graph and returns output state with `document_profile`.
 - Profile persisted at `.refinery/profiles/{doc_id}.json`.
 - Profile matches schema contract.
@@ -65,3 +65,4 @@ Required tests:
 ## Stage Boundary Note
 
 Stage 1 ends at profile + profiling evidence generation. Extraction logic and extraction artifacts are deferred to Stage 2.
+

@@ -6,9 +6,9 @@ Define the Stage 1 triage contract centered on `GraphState -> GraphState` with d
 
 ## Graph Module Boundary
 
-- `src/graph/stage1_graph.py` owns LangGraph assembly and compilation.
+- `src/graph/graph.py` owns LangGraph assembly and compilation.
 - `src/agents/triage.py` owns callable triage logic used by the graph node.
-- `main.py` invokes compiled graph via `build_stage1_graph(...)`.
+- `main.py` invokes compiled graph via `build_graph(...)`.
 
 ## Input Contract
 
@@ -69,3 +69,4 @@ Each Stage 1 profiling entry MUST include:
 ## Stage Boundary
 
 This contract covers only Stage 1 triage and profiling. Extraction content artifacts are intentionally deferred to Stage 2.
+

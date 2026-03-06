@@ -1,11 +1,11 @@
 {
   "deterministic_version": "triage-v1",
-  "doc_id": "background-checks",
-  "domain_hint": "general",
+  "doc_id": "ETS-Annual-Report-2023_2024",
+  "domain_hint": "financial",
   "estimated_extraction_cost": "needs_layout_model",
   "language": {
     "code": "en",
-    "confidence": 0.9999963449995868
+    "confidence": 0.9999960076933392
   },
   "layout_complexity": "mixed",
   "origin_type": "native_digital"

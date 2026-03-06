@@ -1,0 +1,12 @@
+{
+  "deterministic_version": "triage-v1",
+  "doc_id": "2013-E.C-Procurement-information",
+  "domain_hint": "general",
+  "estimated_extraction_cost": "needs_vision_model",
+  "language": {
+    "code": "und",
+    "confidence": 0.5
+  },
+  "layout_complexity": "figure_heavy",
+  "origin_type": "scanned_image"
+}
