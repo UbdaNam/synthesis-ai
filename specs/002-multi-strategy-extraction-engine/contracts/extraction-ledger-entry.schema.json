@@ -1,0 +1,28 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synthesis-ai.local/schemas/extraction-ledger-entry.schema.json",
+  "title": "ExtractionLedgerEntry",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "doc_id",
+    "strategy_used",
+    "confidence_score",
+    "cost_estimate",
+    "processing_time",
+    "escalation_flag",
+    "threshold_rule_reference"
+  ],
+  "properties": {
+    "doc_id": { "type": "string", "minLength": 1 },
+    "strategy_used": {
+      "type": "string",
+      "enum": ["fast_text", "layout_aware", "vision"]
+    },
+    "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "cost_estimate": { "type": "number", "minimum": 0 },
+    "processing_time": { "type": "number", "minimum": 0 },
+    "escalation_flag": { "type": "boolean" },
+    "threshold_rule_reference": { "type": "string", "minLength": 1 }
+  }
+}
