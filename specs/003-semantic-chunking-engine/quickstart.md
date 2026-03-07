@@ -11,7 +11,8 @@
    - one figure with caption
 3. Run the Stage 3 chunker node.
 4. Verify:
-   - output is a typed `List[LDU]`
+   - output is a typed `List[LDU]` on `state.chunked_document`
+   - `state.chunk_relationships` contains resolved and unresolved structural links
    - every LDU contains required fields
    - section context is propagated
    - table chunks preserve headers
@@ -47,3 +48,4 @@
    - no downstream-ready LDU list is published
    - Stage 3 returns a structured `chunking_error`
    - audit metadata records the validation failure
+   - the configured chunking ledger records a `failed_closed` run
