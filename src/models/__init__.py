@@ -1,5 +1,6 @@
 """Typed models for triage + extraction stages."""
 
+from .chunk_relationship import ChunkRelationship, RelationshipType
 from .document_profile import (
     DomainHint,
     DocumentProfile,
@@ -20,9 +21,12 @@ from .extracted_document import (
     VisionInvocationMetadata,
 )
 from .graph_state import GraphState
+from .ldu import ChunkType, LDU
 
 __all__ = [
     "BoundingBox",
+    "ChunkRelationship",
+    "ChunkType",
     "DomainHint",
     "DocumentProfile",
     "EstimatedExtractionCost",
@@ -32,8 +36,10 @@ __all__ = [
     "FigureBlock",
     "GraphState",
     "LanguageSignal",
+    "LDU",
     "LayoutComplexity",
     "OriginType",
+    "RelationshipType",
     "StrategyName",
     "StructuredTable",
     "TextBlock",
