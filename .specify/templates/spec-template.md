@@ -105,6 +105,8 @@
 
 - **CI-001 Typed Contracts**: Identify all inter-stage payloads and corresponding
   typed models (no untyped dictionaries).
+- **CI-001a Provider Normalization**: Describe adapter boundaries that convert
+  provider-native payloads into canonical contracts before stage handoff.
 - **CI-002 Provenance**: Define how `page_number`, `bounding_box`, and `content_hash`
   are produced and validated.
 - **CI-003 Escalation Guard**: Define confidence threshold(s), routing behavior, and
@@ -114,6 +116,10 @@
   extraction budget.
 - **CI-006 Observability**: Define fields logged to `extraction_ledger.jsonl`,
   including strategy decision trace and processing times.
+- **CI-007 Separation of Concerns**: Define which components are agents,
+  strategies, models, and validators/transformers.
+- **CI-008 Operability**: Define persisted artifacts and structured failure
+  categories needed for production diagnostics.
 
 ### Key Entities *(include if feature involves data)*
 

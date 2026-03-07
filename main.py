@@ -15,8 +15,8 @@ from src.models.graph_state import GraphState
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run Stage 1 triage graph on a PDF.")
-    parser.add_argument("file_path", nargs="?", default="sample_files/background-checks.pdf")
-    parser.add_argument("--doc-id", default="background-checks")
+    parser.add_argument("file_path", nargs="?", default="sample_files/Orakly NOV Invoice.pdf")
+    parser.add_argument("--doc-id", default="Orakly NOV Invoice")
     return parser
 
 
@@ -42,7 +42,7 @@ def main() -> None:
             ]
         }
     )
-    print(out.document_profile.model_dump(mode="json"))
+    print(out.chunk_relationships[1].model_dump(mode="json"))
 
 
 if __name__ == "__main__":
