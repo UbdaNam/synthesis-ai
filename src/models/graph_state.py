@@ -8,6 +8,7 @@ from .chunk_relationship import ChunkRelationship
 from .document_profile import DocumentProfile
 from .extracted_document import ExtractedDocument, ExtractionAttemptRecord
 from .ldu import LDU
+from .page_index import PageIndexDocument, SectionCandidate
 
 
 class GraphState(BaseModel):
@@ -26,4 +27,9 @@ class GraphState(BaseModel):
     chunk_relationships: list[ChunkRelationship] = Field(default_factory=list)
     chunking_error: str | None = None
     chunking_meta: dict[str, Any] = Field(default_factory=dict)
+    page_index: PageIndexDocument | None = None
+    page_index_path: str | None = None
+    section_candidates: list[SectionCandidate] = Field(default_factory=list)
+    indexing_error: str | None = None
+    indexing_meta: dict[str, Any] = Field(default_factory=dict)
 
