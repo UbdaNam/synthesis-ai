@@ -1,6 +1,19 @@
 # synthesis-ai
 Agentic Document Processing at Scale
 
+## Engineering Constitution
+
+This repository is governed by
+`.specify/memory/constitution.md`.
+
+Key non-negotiables:
+
+- typed Pydantic contracts at stage boundaries
+- deterministic routing and escalation logic outside LLM calls
+- auditable provenance and ledger artifacts
+- fail-closed handling for invalid and low-confidence outputs
+- budget-aware escalation for expensive model strategies
+
 ## Stage 1 Triage Agent
 
 Current implementation includes a deterministic Stage 1 triage node that:

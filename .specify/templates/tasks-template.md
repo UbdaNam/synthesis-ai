@@ -73,6 +73,9 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T012 Define provenance model fields (`page_number`, `bounding_box`, `content_hash`)
 - [ ] T013 Configure confidence thresholds, escalation guard, and fail-closed behavior
 - [ ] T014 Configure ledger schema for strategy usage, cost, and processing-time metrics
+- [ ] T015 Implement provider adapters to normalize raw payloads into canonical models
+- [ ] T016 Add deterministic routing checks outside LLM calls
+- [ ] T017 Define structured error taxonomy for stage-level failure reporting
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -88,21 +91,22 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T015 [P] [US1] Unit test for classification in tests/unit/test_classification.py
-- [ ] T016 [P] [US1] Unit test for confidence scoring in tests/unit/test_confidence.py
-- [ ] T017 [P] [US1] Unit test for escalation routing in tests/unit/test_escalation_routing.py
-- [ ] T018 [P] [US1] Validation test for chunking invariants in tests/validation/test_chunking.py
-- [ ] T019 [P] [US1] Regression test for extraction failure in tests/regression/test_extraction_failure_[name].py
+- [ ] T018 [P] [US1] Unit test for classification in tests/unit/test_classification.py
+- [ ] T019 [P] [US1] Unit test for confidence scoring in tests/unit/test_confidence.py
+- [ ] T020 [P] [US1] Unit test for escalation routing in tests/unit/test_escalation_routing.py
+- [ ] T021 [P] [US1] Validation test for chunking invariants in tests/validation/test_chunking.py
+- [ ] T022 [P] [US1] Regression test for extraction failure in tests/regression/test_extraction_failure_[name].py
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Create typed models in src/models/[entity1].py
-- [ ] T021 [P] [US1] Create typed models in src/models/[entity2].py
-- [ ] T022 [US1] Implement [Service] in src/services/[service].py (depends on T020, T021)
-- [ ] T023 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T024 [US1] Add provenance enforcement (`page_number`, `bounding_box`, `content_hash`)
-- [ ] T025 [US1] Add fail-closed escalation guard checks
-- [ ] T026 [US1] Add ledger logging in extraction_ledger.jsonl with cost and timing
+- [ ] T023 [P] [US1] Create typed models in src/models/[entity1].py
+- [ ] T024 [P] [US1] Create typed models in src/models/[entity2].py
+- [ ] T025 [US1] Implement [Service] in src/services/[service].py (depends on T023, T024)
+- [ ] T026 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T027 [US1] Add provenance enforcement (`page_number`, `bounding_box`, `content_hash`)
+- [ ] T028 [US1] Add fail-closed escalation guard checks
+- [ ] T029 [US1] Add ledger logging in extraction_ledger.jsonl with cost and timing
+- [ ] T030 [US1] Add adapter normalization checks to prevent raw payload leakage
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -116,14 +120,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 2 (MANDATORY FOR GOVERNED BEHAVIOR)
 
-- [ ] T027 [P] [US2] Add unit/validation/regression tests for US2 governed behavior
+- [ ] T031 [P] [US2] Add unit/validation/regression tests for US2 governed behavior
 
 ### Implementation for User Story 2
 
-- [ ] T028 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T029 [US2] Implement [Service] in src/services/[service].py
-- [ ] T030 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T031 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T032 [P] [US2] Create [Entity] model in src/models/[entity].py
+- [ ] T033 [US2] Implement [Service] in src/services/[service].py
+- [ ] T034 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T035 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -137,13 +141,13 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 3 (MANDATORY FOR GOVERNED BEHAVIOR)
 
-- [ ] T032 [P] [US3] Add unit/validation/regression tests for US3 governed behavior
+- [ ] T036 [P] [US3] Add unit/validation/regression tests for US3 governed behavior
 
 ### Implementation for User Story 3
 
-- [ ] T033 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T034 [US3] Implement [Service] in src/services/[service].py
-- [ ] T035 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T037 [P] [US3] Create [Entity] model in src/models/[entity].py
+- [ ] T038 [US3] Implement [Service] in src/services/[service].py
+- [ ] T039 [US3] Implement [endpoint/feature] in src/[location]/[file].py
 
 **Checkpoint**: All user stories should now be independently functional
 
