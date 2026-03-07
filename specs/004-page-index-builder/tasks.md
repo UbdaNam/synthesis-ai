@@ -11,11 +11,11 @@
 
 **Purpose**: Prepare Stage 4 scaffolding, dependencies, and configuration surfaces for PageIndex work.
 
-- [ ] T001 Create Stage 4 module scaffolding in `src/agents/indexer.py`, `src/models/page_index.py`, `src/indexing/pageindex_builder.py`, `src/indexing/section_summarizer.py`, `src/indexing/entity_extractor.py`, `src/indexing/data_type_detector.py`, and `src/indexing/vector_ingestor.py`
-- [ ] T002 [P] Add Stage 4 dependencies for OpenAI summary generation and ChromaDB ingestion in `pyproject.toml`
-- [ ] T003 [P] Add Stage 4 environment variable examples for OpenAI and local vector persistence in `.env.example`
-- [ ] T004 [P] Add Stage 4 configuration placeholders under `pageindex` in `rubric/extraction_rules.yaml`
-- [ ] T005 [P] Create Stage 4 test skeletons in `tests/unit/test_page_index_schema.py`, `tests/unit/test_pageindex_builder.py`, `tests/unit/test_section_summarizer.py`, and `tests/integration/test_pageindex_end_to_end.py`
+- [X] T001 Create Stage 4 module scaffolding in `src/agents/indexer.py`, `src/models/page_index.py`, `src/indexing/pageindex_builder.py`, `src/indexing/section_summarizer.py`, `src/indexing/entity_extractor.py`, `src/indexing/data_type_detector.py`, and `src/indexing/vector_ingestor.py`
+- [X] T002 [P] Add Stage 4 dependencies for OpenAI summary generation and ChromaDB ingestion in `pyproject.toml`
+- [X] T003 [P] Add Stage 4 environment variable examples for OpenAI and local vector persistence in `.env.example`
+- [X] T004 [P] Add Stage 4 configuration placeholders under `pageindex` in `rubric/extraction_rules.yaml`
+- [X] T005 [P] Create Stage 4 test skeletons in `tests/unit/test_page_index_schema.py`, `tests/unit/test_pageindex_builder.py`, `tests/unit/test_section_summarizer.py`, and `tests/integration/test_pageindex_end_to_end.py`
 
 ---
 
@@ -25,14 +25,14 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T006 Define the `PageIndexNode`, `PageIndexDocument`, `SectionSummaryRequest`, `SectionSummaryResult`, and `SectionCandidate` Pydantic schemas in `src/models/page_index.py`
-- [ ] T007 Extend Stage 4 graph state fields for `page_index`, `page_index_path`, `indexing_meta`, `section_candidates`, and `indexing_error` in `src/models/graph_state.py`
-- [ ] T008 [P] Implement deterministic section and node identifier generation in `src/indexing/pageindex_builder.py`
-- [ ] T009 [P] Implement PageIndex JSON persistence helpers targeting `.refinery/pageindex/{doc_id}.json` in `src/indexing/pageindex_builder.py`
-- [ ] T010 [P] Implement deterministic data type normalization primitives for `tables`, `figures`, `equations`, `narrative_text`, and `lists` in `src/indexing/data_type_detector.py`
-- [ ] T011 [P] Implement deterministic rule-based entity normalization primitives in `src/indexing/entity_extractor.py`
-- [ ] T012 Configure Stage 4 thresholds and settings including summary model, chunk limits, vector collection, and ranking strategy in `rubric/extraction_rules.yaml`
-- [ ] T013 Add foundational schema and helper tests in `tests/unit/test_page_index_schema.py`, `tests/unit/test_pageindex_builder.py`, and `tests/unit/test_data_type_detector.py`
+- [X] T006 Define the `PageIndexNode`, `PageIndexDocument`, `SectionSummaryRequest`, `SectionSummaryResult`, and `SectionCandidate` Pydantic schemas in `src/models/page_index.py`
+- [X] T007 Extend Stage 4 graph state fields for `page_index`, `page_index_path`, `indexing_meta`, `section_candidates`, and `indexing_error` in `src/models/graph_state.py`
+- [X] T008 [P] Implement deterministic section and node identifier generation in `src/indexing/pageindex_builder.py`
+- [X] T009 [P] Implement PageIndex JSON persistence helpers targeting `.refinery/pageindex/{doc_id}.json` in `src/indexing/pageindex_builder.py`
+- [X] T010 [P] Implement deterministic data type normalization primitives for `tables`, `figures`, `equations`, `narrative_text`, and `lists` in `src/indexing/data_type_detector.py`
+- [X] T011 [P] Implement deterministic rule-based entity normalization primitives in `src/indexing/entity_extractor.py`
+- [X] T012 Configure Stage 4 thresholds and settings including summary model, chunk limits, vector collection, and ranking strategy in `rubric/extraction_rules.yaml`
+- [X] T013 Add foundational schema and helper tests in `tests/unit/test_page_index_schema.py`, `tests/unit/test_pageindex_builder.py`, and `tests/unit/test_data_type_detector.py`
 
 **Checkpoint**: Stage 4 typed contracts, persistence, deterministic helpers, and graph-state foundation are ready for story implementation.
 
@@ -46,19 +46,19 @@
 
 ### Tests for User Story 1
 
-- [ ] T014 [P] [US1] Add unit test for section grouping and tree construction in `tests/unit/test_pageindex_builder.py`
-- [ ] T015 [P] [US1] Add unit test for page range correctness and child section relationships in `tests/unit/test_pageindex_ranges.py`
-- [ ] T016 [P] [US1] Add unit test for indexer state input/output handling in `tests/unit/test_indexer_agent.py`
-- [ ] T017 [P] [US1] Add integration test for `List[LDU] -> PageIndex JSON` in `tests/integration/test_pageindex_end_to_end.py`
+- [X] T014 [P] [US1] Add unit test for section grouping and tree construction in `tests/unit/test_pageindex_builder.py`
+- [X] T015 [P] [US1] Add unit test for page range correctness and child section relationships in `tests/unit/test_pageindex_ranges.py`
+- [X] T016 [P] [US1] Add unit test for indexer state input/output handling in `tests/unit/test_indexer_agent.py`
+- [X] T017 [P] [US1] Add integration test for `List[LDU] -> PageIndex JSON` in `tests/integration/test_pageindex_end_to_end.py`
 
 ### Implementation for User Story 1
 
-- [ ] T018 [US1] Implement deterministic section grouping and hierarchy construction from Stage 3 LDUs in `src/indexing/pageindex_builder.py`
-- [ ] T019 [US1] Implement page range derivation, section titles, and child section assembly in `src/indexing/pageindex_builder.py`
-- [ ] T020 [US1] Implement PageIndex artifact persistence under `.refinery/pageindex/` in `src/indexing/pageindex_builder.py`
-- [ ] T021 [US1] Implement the Stage 4 indexer entrypoint to consume real Stage 3 LDUs from graph state in `src/agents/indexer.py`
-- [ ] T022 [US1] Wire Stage 4 state emission through `src/agents/indexer.py` and `src/models/graph_state.py`
-- [ ] T023 [US1] Integrate the `index` node into the LangGraph flow in `src/graph/graph.py`
+- [X] T018 [US1] Implement deterministic section grouping and hierarchy construction from Stage 3 LDUs in `src/indexing/pageindex_builder.py`
+- [X] T019 [US1] Implement page range derivation, section titles, and child section assembly in `src/indexing/pageindex_builder.py`
+- [X] T020 [US1] Implement PageIndex artifact persistence under `.refinery/pageindex/` in `src/indexing/pageindex_builder.py`
+- [X] T021 [US1] Implement the Stage 4 indexer entrypoint to consume real Stage 3 LDUs from graph state in `src/agents/indexer.py`
+- [X] T022 [US1] Wire Stage 4 state emission through `src/agents/indexer.py` and `src/models/graph_state.py`
+- [X] T023 [US1] Integrate the `index` node into the LangGraph flow in `src/graph/graph.py`
 
 **Checkpoint**: Stage 4 consumes real Stage 3 LDUs directly and persists schema-valid PageIndex artifacts with hierarchical section navigation.
 
@@ -72,19 +72,19 @@
 
 ### Tests for User Story 2
 
-- [ ] T024 [P] [US2] Add unit test for deterministic entity extraction formatting in `tests/unit/test_entity_extractor.py`
-- [ ] T025 [P] [US2] Add unit test for section data type detection in `tests/unit/test_data_type_detector.py`
-- [ ] T026 [P] [US2] Add unit test for OpenAI summary request shaping and structured output validation in `tests/unit/test_section_summarizer.py`
-- [ ] T027 [P] [US2] Add integration test for mixed-content section enrichment in `tests/integration/test_pageindex_section_enrichment.py`
+- [X] T024 [P] [US2] Add unit test for deterministic entity extraction formatting in `tests/unit/test_entity_extractor.py`
+- [X] T025 [P] [US2] Add unit test for section data type detection in `tests/unit/test_data_type_detector.py`
+- [X] T026 [P] [US2] Add unit test for OpenAI summary request shaping and structured output validation in `tests/unit/test_section_summarizer.py`
+- [X] T027 [P] [US2] Add integration test for mixed-content section enrichment in `tests/integration/test_pageindex_section_enrichment.py`
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] Implement rule-based key entity extraction for section LDUs in `src/indexing/entity_extractor.py`
-- [ ] T029 [US2] Implement `data_types_present` detection from Stage 3 chunk types and metadata in `src/indexing/data_type_detector.py`
-- [ ] T030 [US2] Implement bounded summary request assembly for one section at a time in `src/indexing/section_summarizer.py`
-- [ ] T031 [US2] Implement real LangChain OpenAI GPT summary generation with structured output validation in `src/indexing/section_summarizer.py`
-- [ ] T032 [US2] Integrate section enrichment orchestration into `src/agents/indexer.py`
-- [ ] T033 [US2] Add summary generation safeguards that fail closed on invalid or ungrounded output in `src/indexing/section_summarizer.py` and `src/agents/indexer.py`
+- [X] T028 [US2] Implement rule-based key entity extraction for section LDUs in `src/indexing/entity_extractor.py`
+- [X] T029 [US2] Implement `data_types_present` detection from Stage 3 chunk types and metadata in `src/indexing/data_type_detector.py`
+- [X] T030 [US2] Implement bounded summary request assembly for one section at a time in `src/indexing/section_summarizer.py`
+- [X] T031 [US2] Implement real LangChain OpenAI GPT summary generation with structured output validation in `src/indexing/section_summarizer.py`
+- [X] T032 [US2] Integrate section enrichment orchestration into `src/agents/indexer.py`
+- [X] T033 [US2] Add summary generation safeguards that fail closed on invalid or ungrounded output in `src/indexing/section_summarizer.py` and `src/agents/indexer.py`
 
 **Checkpoint**: PageIndex nodes include all required fields, summaries are generated with LangGraph-compatible OpenAI GPT usage, and section enrichment remains grounded and deterministic where practical.
 
@@ -98,19 +98,19 @@
 
 ### Tests for User Story 3
 
-- [ ] T034 [P] [US3] Add unit test for vector ingestion metadata mapping in `tests/unit/test_vector_ingestor.py`
-- [ ] T035 [P] [US3] Add unit test for section-first narrowing and ranking behavior in `tests/unit/test_section_candidate_ranking.py`
-- [ ] T036 [P] [US3] Add unit test for Stage 4 fail-closed validation and error categories in `tests/unit/test_indexer_fail_closed.py`
-- [ ] T037 [P] [US3] Add integration test for `List[LDU] -> vector ingestion` in `tests/integration/test_pageindex_vector_ingestion.py`
-- [ ] T038 [P] [US3] Add integration test for section-first narrowing preparation in `tests/integration/test_pageindex_section_narrowing.py`
+- [X] T034 [P] [US3] Add unit test for vector ingestion metadata mapping in `tests/unit/test_vector_ingestor.py`
+- [X] T035 [P] [US3] Add unit test for section-first narrowing and ranking behavior in `tests/unit/test_section_candidate_ranking.py`
+- [X] T036 [P] [US3] Add unit test for Stage 4 fail-closed validation and error categories in `tests/unit/test_indexer_fail_closed.py`
+- [X] T037 [P] [US3] Add integration test for `List[LDU] -> vector ingestion` in `tests/integration/test_pageindex_vector_ingestion.py`
+- [X] T038 [P] [US3] Add integration test for section-first narrowing preparation in `tests/integration/test_pageindex_section_narrowing.py`
 
 ### Implementation for User Story 3
 
-- [ ] T039 [US3] Implement real ChromaDB ingestion for LDUs with required metadata in `src/indexing/vector_ingestor.py`
-- [ ] T040 [US3] Implement section-first narrowing and deterministic ranking helper in `src/agents/indexer.py`
-- [ ] T041 [US3] Implement Stage 4 validation and fail-closed publishing checks for invalid trees, summaries, and mixed-document inputs in `src/agents/indexer.py` and `src/indexing/pageindex_builder.py`
-- [ ] T042 [US3] Enforce Stage 4 isolation from final query-agent behavior in `src/agents/indexer.py` and `src/graph/graph.py`
-- [ ] T043 [US3] Emit indexing metadata for persisted artifacts, vector ingestion status, and retrieval candidates in `src/agents/indexer.py`
+- [X] T039 [US3] Implement real ChromaDB ingestion for LDUs with required metadata in `src/indexing/vector_ingestor.py`
+- [X] T040 [US3] Implement section-first narrowing and deterministic ranking helper in `src/agents/indexer.py`
+- [X] T041 [US3] Implement Stage 4 validation and fail-closed publishing checks for invalid trees, summaries, and mixed-document inputs in `src/agents/indexer.py` and `src/indexing/pageindex_builder.py`
+- [X] T042 [US3] Enforce Stage 4 isolation from final query-agent behavior in `src/agents/indexer.py` and `src/graph/graph.py`
+- [X] T043 [US3] Emit indexing metadata for persisted artifacts, vector ingestion status, and retrieval candidates in `src/agents/indexer.py`
 
 **Checkpoint**: Vector ingestion is real, not mocked; PageIndex artifacts are persisted correctly; section-first narrowing works for downstream retrieval preparation; and Stage 4 remains isolated from final query-agent behavior.
 
@@ -120,10 +120,10 @@
 
 **Purpose**: Finalize Stage 4 readiness, documentation, and end-to-end validation.
 
-- [ ] T044 [P] Document Stage 4 configuration, OpenAI requirements, persisted artifacts, and retrieval-preparation outputs in `README.md`
-- [ ] T045 Reconcile Stage 4 quickstart scenarios with final implementation behavior in `specs/004-page-index-builder/quickstart.md`
-- [ ] T046 [P] Add regression coverage for PageIndex artifact persistence and state contract boundaries in `tests/integration/test_pageindex_persistence_regression.py`
-- [ ] T047 Run and stabilize the full Stage 4 test suite in `tests/unit/` and `tests/integration/`
+- [X] T044 [P] Document Stage 4 configuration, OpenAI requirements, persisted artifacts, and retrieval-preparation outputs in `README.md`
+- [X] T045 Reconcile Stage 4 quickstart scenarios with final implementation behavior in `specs/004-page-index-builder/quickstart.md`
+- [X] T046 [P] Add regression coverage for PageIndex artifact persistence and state contract boundaries in `tests/integration/test_pageindex_persistence_regression.py`
+- [X] T047 Run and stabilize the full Stage 4 test suite in `tests/unit/` and `tests/integration/`
 
 ---
 

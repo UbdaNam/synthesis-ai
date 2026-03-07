@@ -3,12 +3,12 @@
 ## Goal
 
 Validate Stage 4 by running the LangGraph pipeline from Stage 3 chunk outputs to
-a persisted PageIndex artifact and optional local vector ingestion.
+a persisted PageIndex artifact and real local Chroma ingestion.
 
 ## Preconditions
 
 - Stage 3 has already produced validated `List[LDU]` for a document.
-- OpenAI credentials are configured for summary generation.
+- `OPENAI_API_KEY` is configured for summary generation and embeddings.
 - Local Stage 4 configuration exists in `rubric/extraction_rules.yaml`.
 
 ## Scenario 1: Build and persist a PageIndex tree
@@ -49,6 +49,8 @@ a persisted PageIndex artifact and optional local vector ingestion.
 3. Confirm the helper ranks the most relevant sections before any full-corpus
    semantic search step.
 4. Confirm the returned candidates reference valid section IDs and page ranges.
+5. Confirm vector metadata includes `doc_id`, `section_id`, `section_title`,
+   `page_refs`, `chunk_type`, and `content_hash`.
 
 ## Scenario 4: Fail-closed behavior
 
