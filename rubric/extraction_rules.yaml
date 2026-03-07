@@ -84,3 +84,12 @@ extraction:
     fast_text_per_page: 0.0002
     layout_base: 0.01
     layout_per_page: 0.001
+
+chunking:
+  rule_version: chunking-v1
+  max_tokens_per_chunk: 200
+  numbered_list_split_threshold: 200
+  table_row_group_limit: 20
+  reference_resolution_behavior: resolve_if_known
+  section_heading_block_types: [heading]
+  chunking_ledger_path: .refinery/chunking_ledger.jsonl
