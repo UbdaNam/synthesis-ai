@@ -93,3 +93,18 @@ chunking:
   reference_resolution_behavior: resolve_if_known
   section_heading_block_types: [heading]
   chunking_ledger_path: .refinery/chunking_ledger.jsonl
+
+pageindex:
+  rule_version: pageindex-v1
+  artifact_dir: .refinery/pageindex
+  summary_model_name: openai/gpt-4o-mini
+  max_chunks_per_summary_request: 6
+  summary_temperature: 0.0
+  vector_collection_name: pageindex-ldus
+  vector_persist_directory: .refinery/pageindex/chroma
+  embedding_model: openai/text-embedding-3-small
+  embedding_base_url: https://openrouter.ai/api/v1
+  entity_extraction_stopwords: [section, table, figure, document]
+  entity_max_per_section: 8
+  section_ranking_strategy: lexical_overlap
+  enable_vector_ingestion: true

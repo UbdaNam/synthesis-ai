@@ -22,6 +22,13 @@ from .extracted_document import (
 )
 from .graph_state import GraphState
 from .ldu import ChunkType, LDU
+from .page_index import (
+    PageIndexDocument,
+    PageIndexNode,
+    SectionCandidate,
+    SectionSummaryRequest,
+    SectionSummaryResult,
+)
 
 __all__ = [
     "BoundingBox",
@@ -39,7 +46,12 @@ __all__ = [
     "LDU",
     "LayoutComplexity",
     "OriginType",
+    "PageIndexDocument",
+    "PageIndexNode",
     "RelationshipType",
+    "SectionCandidate",
+    "SectionSummaryRequest",
+    "SectionSummaryResult",
     "StrategyName",
     "StructuredTable",
     "TextBlock",
