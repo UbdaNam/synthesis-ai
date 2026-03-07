@@ -62,7 +62,9 @@ celerybeat-
 
 # Environments
 .env
+.env*
 .venv
+.venv/
 env/
 venv/
 ENV/

@@ -8,6 +8,7 @@ PROJECT_ROOT = Path(__file__).parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.config.env import ensure_env_loaded
 from src.graph.graph import build_graph
 from src.models.graph_state import GraphState
 
@@ -20,6 +21,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    ensure_env_loaded()
     args = _build_parser().parse_args()
     sample_pdf = Path(args.file_path)
     if not sample_pdf.exists():
@@ -32,6 +34,14 @@ def main() -> None:
     if out.document_profile is None:
         print("No document profile generated.")
         return
+    print({"extraction_error": out.extraction_error})
+    print(
+        {
+            "extraction_attempts": [
+                attempt.model_dump(mode="json") for attempt in out.extraction_attempts
+            ]
+        }
+    )
     print(out.document_profile.model_dump(mode="json"))
 
 

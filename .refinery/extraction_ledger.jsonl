@@ -1,0 +1,1 @@
+{"budget_cap": 0.15, "budget_spent": 0.011, "confidence_score": 0.6875, "cost_estimate": 0.011, "doc_id": "doc-graph", "escalation_flag": false, "final_disposition": "escalated", "processing_time": 126.61332310002763, "strategy_used": "layout_aware", "threshold_rule_reference": "extraction-v1", "timestamp_utc": "2026-03-07T13:37:49.690263+00:00", "usage_tokens": 0}

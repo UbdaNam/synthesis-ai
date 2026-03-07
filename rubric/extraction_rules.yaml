@@ -22,3 +22,65 @@
     figure_heavy: needs_vision_model
     layout_complex: needs_layout_model
     default: fast_text_sufficient
+
+extraction:
+  router:
+    rule_version: extraction-v1
+  fast_text:
+    confidence_signals:
+      char_count_min: 200
+      char_density_min: 0.001
+      image_ratio_max: 0.35
+      font_metadata_required: false
+    weights:
+      char_count: 0.35
+      char_density: 0.35
+      image_to_page_ratio: 0.20
+      font_metadata_presence: 0.10
+  escalation:
+    acceptance_thresholds:
+      fast_text: 0.70
+      layout_aware: 0.75
+      vision: 0.78
+  layout_aware:
+    provider: docling
+    providers:
+      docling:
+        enabled: true
+        document_timeout_seconds: 180
+        max_pages: 200
+        max_file_size_mb: 100
+        do_table_structure: true
+        force_backend_text: true
+        do_ocr_default: false
+        do_ocr_native_digital: false
+        do_ocr_mixed: true
+        do_ocr_scanned: true
+        do_picture_description: false
+        do_chart_extraction: false
+        generate_page_images: false
+        generate_picture_images: false
+        generate_table_images: false
+        generate_parsed_pages: false
+      mineru:
+        enabled: false
+  vision:
+    provider: openrouter
+    model: openrouter/auto
+    prompt_template_version: v1
+    structured_output_method: json_schema
+    structured_output_retry_max: 1
+    temperature: 0.0
+    request_timeout_seconds: 90
+    max_pages_per_request: 4
+    render_dpi: 144
+    budget_cap_default: 0.15
+    tokens_per_page_estimate: 1200
+    base_prompt_tokens: 300
+    cost_per_1k_tokens: 0.006
+    handwriting_doc_ids: []
+  costing:
+    fast_text_base: 0.001
+    fast_text_per_page: 0.0002
+    layout_base: 0.01
+    layout_per_page: 0.001
