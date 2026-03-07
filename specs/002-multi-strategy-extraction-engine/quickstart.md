@@ -5,6 +5,7 @@
 - Python >=3.14
 - Stage 1 outputs `DocumentProfile` in `GraphState`
 - Working directory: `C:\Abdu\synthesis-ai`
+- Set OpenRouter credentials (see `C:\Abdu\synthesis-ai\.env.example`)
 
 ## Required Files
 
@@ -54,4 +55,6 @@ VisionExtractor triggers when:
 ```powershell
 python -m pytest tests/unit -q
 python -m pytest tests/integration -q
+python -m pytest -q
+python main.py sample_files/background-checks.pdf --doc-id quickstart-stage2
 ```
