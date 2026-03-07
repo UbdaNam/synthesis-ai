@@ -1,5 +1,6 @@
-"""Stage 1 agent package."""
+"""Stage 1 + Stage 2 agent package."""
 
+from .extractor import ExtractionRouter
 from .triage import (
     ExtractionCostResolver,
     KeywordDomainClassifier,
@@ -11,6 +12,7 @@ from .triage import (
 )
 
 __all__ = [
+    "ExtractionRouter",
     "ExtractionCostResolver",
     "KeywordDomainClassifier",
     "LayoutClassifier",

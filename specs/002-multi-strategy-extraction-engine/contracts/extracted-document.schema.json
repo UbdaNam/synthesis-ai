@@ -1,0 +1,137 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synthesis-ai.local/schemas/extracted-document.schema.json",
+  "title": "ExtractedDocument",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "doc_id",
+    "strategy_used",
+    "confidence_score",
+    "metadata",
+    "text_blocks",
+    "tables",
+    "figures"
+  ],
+  "properties": {
+    "doc_id": { "type": "string", "minLength": 1 },
+    "strategy_used": {
+      "type": "string",
+      "enum": ["fast_text", "layout_aware", "vision"]
+    },
+    "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["page_count"],
+      "properties": {
+        "page_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "text_blocks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TextBlock" }
+    },
+    "tables": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/StructuredTable" }
+    },
+    "figures": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/FigureBlock" }
+    }
+  },
+  "$defs": {
+    "BoundingBox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1"],
+      "properties": {
+        "x0": { "type": "number" },
+        "y0": { "type": "number" },
+        "x1": { "type": "number" },
+        "y1": { "type": "number" }
+      }
+    },
+    "TextBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "page_number",
+        "bounding_box",
+        "reading_order",
+        "block_type",
+        "text",
+        "content_hash",
+        "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "page_number": { "type": "integer", "minimum": 1 },
+        "bounding_box": { "$ref": "#/$defs/BoundingBox" },
+        "reading_order": { "type": "integer", "minimum": 0 },
+        "block_type": {
+          "type": "string",
+          "enum": ["heading", "paragraph", "list_item", "caption", "footnote", "other"]
+        },
+        "text": { "type": "string" },
+        "content_hash": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "StructuredTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "page_number",
+        "bounding_box",
+        "headers",
+        "rows",
+        "content_hash",
+        "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "page_number": { "type": "integer", "minimum": 1 },
+        "bounding_box": { "$ref": "#/$defs/BoundingBox" },
+        "caption": { "type": ["string", "null"] },
+        "headers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "content_hash": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "FigureBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "page_number",
+        "bounding_box",
+        "figure_type",
+        "content_hash",
+        "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "page_number": { "type": "integer", "minimum": 1 },
+        "bounding_box": { "$ref": "#/$defs/BoundingBox" },
+        "caption": { "type": ["string", "null"] },
+        "figure_type": { "type": "string" },
+        "content_hash": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
