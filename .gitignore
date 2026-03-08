@@ -116,6 +116,7 @@ Thumbs.db
 # Temporary files
 *.log
 *.pid
+.refinery/query/
 
 # Local development overrides
 .local

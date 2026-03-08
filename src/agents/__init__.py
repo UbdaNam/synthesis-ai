@@ -3,6 +3,7 @@
 from .chunker import SemanticChunkingAgent
 from .extractor import ExtractionRouter
 from .indexer import PageIndexingAgent
+from .query_agent import QueryAgent
 from .triage import (
     ExtractionCostResolver,
     KeywordDomainClassifier,
@@ -17,6 +18,7 @@ __all__ = [
     "SemanticChunkingAgent",
     "ExtractionRouter",
     "PageIndexingAgent",
+    "QueryAgent",
     "ExtractionCostResolver",
     "KeywordDomainClassifier",
     "LayoutClassifier",

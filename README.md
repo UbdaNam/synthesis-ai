@@ -3,12 +3,13 @@
 Production-oriented document intelligence pipeline built as a staged LangGraph
 workflow.
 
-The current pipeline has four implemented stages:
+The current pipeline has five implemented stages:
 
 1. Stage 1 triage: deterministic document profiling
 2. Stage 2 extraction: strategy-based structure extraction
 3. Stage 3 chunking: semantic chunk generation for retrieval
 4. Stage 4 indexing: PageIndex construction and retrieval preparation
+5. Stage 5 query: provenance-aware question answering and audit mode
 
 ## Overview
 
@@ -18,6 +19,7 @@ The system processes a document through typed stage boundaries:
 - `ExtractedDocument` from Stage 2
 - `List[LDU]` plus `ChunkRelationship` records from Stage 3
 - `PageIndexDocument` from Stage 4
+- `QueryResult` plus `ProvenanceChain` records from Stage 5
 
 Each stage is governed by the engineering rules in
 [constitution.md](C:/Abdu/synthesis-ai/.specify/memory/constitution.md):
@@ -30,13 +32,15 @@ Each stage is governed by the engineering rules in
 
 ## Pipeline
 
-The compiled LangGraph flow is:
+The compiled document-processing LangGraph flow is:
 
 ```text
 triage -> extract -> chunk -> index
 ```
 
 Runtime assembly lives in [graph.py](C:/Abdu/synthesis-ai/src/graph/graph.py).
+Stage 5 currently runs as a dedicated query layer over the persisted Stage 4
+artifacts and retrieval stores rather than as an inline document-processing node.
 
 ### Stage 1: Triage
 
@@ -100,6 +104,27 @@ Responsibilities:
   retrieval preparation
 - fail closed on invalid trees, invalid summaries, or vector-ingestion errors
 
+### Stage 5: Query Agent and Provenance Layer
+
+Implemented in [query_agent.py](C:/Abdu/synthesis-ai/src/agents/query_agent.py)
+and the modules under `src/query/`.
+
+Responsibilities:
+
+- accept natural-language questions or audit-mode claims against processed
+  documents
+- use exactly three real tools:
+  - `pageindex_navigate`
+  - `semantic_search`
+  - `structured_query`
+- route deterministically toward section-first retrieval, semantic evidence
+  retrieval, or precise fact lookup
+- return typed `QueryResult` outputs with explicit provenance for supported
+  answers
+- maintain a SQLite FactTable under `.refinery/query/facts.db`
+- fail closed to `not_found` or `unverifiable` when evidence is insufficient or
+  invalid
+
 ## Core Models
 
 Key models live under `src/models/`:
@@ -109,6 +134,8 @@ Key models live under `src/models/`:
 - [ldu.py](C:/Abdu/synthesis-ai/src/models/ldu.py)
 - [chunk_relationship.py](C:/Abdu/synthesis-ai/src/models/chunk_relationship.py)
 - [page_index.py](C:/Abdu/synthesis-ai/src/models/page_index.py)
+- [provenance_chain.py](C:/Abdu/synthesis-ai/src/models/provenance_chain.py)
+- [query_result.py](C:/Abdu/synthesis-ai/src/models/query_result.py)
 - [graph_state.py](C:/Abdu/synthesis-ai/src/models/graph_state.py)
 
 ## Configuration
@@ -125,15 +152,16 @@ Current top-level configuration sections:
 - `pageindex`: Stage 4 summary model, artifact paths, entity extraction,
   section ranking, and vector-ingestion settings including the OpenRouter
   embedding model
+- `query`: Stage 5 model, fact-table, and retrieval limits for the Query Agent
 
 Environment variables are loaded from `.env` at runtime through
 [env.py](C:/Abdu/synthesis-ai/src/config/env.py).
 
 Important environment variable:
 
-- `OPENROUTER_API_KEY`: required for the Stage 2 vision strategy
 - `OPENROUTER_API_KEY`: required for the Stage 2 vision strategy and all Stage
-  4 model-backed operations
+  4/Stage 5 model-backed operations
+- `QUERY_FACTS_DB_PATH`: optional override for the Stage 5 SQLite FactTable path
 
 Use [.env.example](C:/Abdu/synthesis-ai/.env.example) as the reference for local
 configuration.
@@ -173,8 +201,20 @@ Run a specific file:
 python main.py "sample_files/Orakly NOV Invoice.pdf" --doc-id "Orakly NOV Invoice"
 ```
 
-The current demo prints selected state outputs, including extraction status,
-chunk relationship data, and any indexing failure surfaced by Stage 4.
+Run a grounded question after the document pipeline completes:
+
+```powershell
+python main.py "sample_files/background-checks.pdf" --doc-id "background-checks" --query "What does the report say about financial results?"
+```
+
+Run audit mode:
+
+```powershell
+python main.py "sample_files/background-checks.pdf" --doc-id "background-checks" --query "Revenue is USD 1250000." --audit
+```
+
+The runtime prints selected stage outputs, including extraction status, chunk
+relationship data, indexing failures, and optional Stage 5 query results.
 
 ## Artifacts
 
@@ -188,6 +228,8 @@ Important outputs:
 - `.refinery/chunking_ledger.jsonl`: Stage 3 chunking ledger
 - `.refinery/pageindex/*.json`: Stage 4 persisted PageIndex artifacts
 - `.refinery/pageindex/chroma/`: Stage 4 local vector persistence
+- `.refinery/query/facts.db`: Stage 5 SQLite FactTable
+- `.refinery/query/ldu_cache/*.json`: Stage 5 LDU cache for provenance recovery
 
 These artifacts are intended for inspection, debugging, and auditability.
 
@@ -217,6 +259,12 @@ Run Stage 4 focused tests:
 .venv\Scripts\python.exe -m pytest tests/unit/test_*pageindex* tests/integration/test_pageindex_* -q --basetemp=.test_tmp/pytest-stage4
 ```
 
+Run Stage 5 focused tests:
+
+```powershell
+.venv\Scripts\python.exe -m pytest tests/unit/test_*query* tests/unit/test_*fact* tests/unit/test_provenance_chain.py tests/integration/test_query_agent_* -q --basetemp=.test_tmp/pytest-stage5
+```
+
 ## Repository Layout
 
 ```text
@@ -227,6 +275,7 @@ src/
 |-- graph/         # graph assembly
 |-- indexing/      # Stage 4 PageIndex building, summarization, and vector ingestion
 |-- models/        # typed contracts
+|-- query/         # Stage 5 tools, FactTable extraction, and audit logic
 `-- strategies/    # Stage 2 extraction strategies
 
 tests/
@@ -236,7 +285,7 @@ tests/
 rubric/
 `-- extraction_rules.yaml
 
-.refinery/         # persisted profiling, extraction, chunking, and indexing artifacts
+.refinery/         # persisted profiling, extraction, chunking, indexing, and query artifacts
 specs/             # spec-driven planning artifacts
 ```
 
