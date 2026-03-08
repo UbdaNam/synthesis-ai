@@ -31,20 +31,22 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- `Architecture`: Confirms strict modular boundaries, Strategy pattern in extraction
-  layer, separation between agents and strategies, and no untyped dictionaries at
-  stage boundaries (typed Pydantic contracts only).
-- `Testing`: Defines unit tests for classification/confidence/escalation routing,
-  validation tests for chunking invariants, regression tests for extraction failures,
-  and deterministic chunking verification.
+- `Typed Contracts`: Confirms explicit Pydantic models at every stage boundary and
+  verifies provider payload normalization before state handoff.
+- `Determinism`: Confirms measurable decisions (routing/escalation/threshold checks)
+  are implemented outside LLM reasoning and are reproducible where practical.
+- `Architecture`: Confirms strict modular boundaries and separation between agents,
+  strategies, models, and transformation/validation modules.
 - `Provenance`: Enforces `page_number`, `bounding_box`, and `content_hash` on all
   required outputs; prohibits answer emission without provenance.
 - `Escalation Guard`: Documents confidence thresholds and fail-closed behavior that
   blocks low-confidence outputs from downstream publication.
-- `Performance/Cost`: Validates fast-text-first routing, budget limits for vision
-  extraction, and ledger accounting for strategy usage and cost.
-- `Observability`: Requires auditable strategy decision logs and processing-time
-  capture in `extraction_ledger.jsonl`.
+- `Performance/Cost`: Validates budget-aware escalation and ledger accounting for
+  strategy usage, token/cost estimates, and processing time.
+- `Validation and Tests`: Defines unit, validation, and regression tests for all
+  constitution-governed behavior.
+- `Operability`: Requires auditable artifacts, structured error categories, and
+  stage-level observability in persisted ledgers.
 
 ## Project Structure
 

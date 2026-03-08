@@ -54,13 +54,6 @@ ipython_config.py
 # pyenv
 .python-version
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
 # celery beat schedule file
 celerybeat-
 
@@ -69,7 +62,9 @@ celerybeat-
 
 # Environments
 .env
+.env*
 .venv
+.venv/
 env/
 venv/
 ENV/
@@ -121,6 +116,7 @@ Thumbs.db
 # Temporary files
 *.log
 *.pid
+.refinery/query/
 
 # Local development overrides
 .local

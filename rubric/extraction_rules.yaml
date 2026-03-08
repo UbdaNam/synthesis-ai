@@ -1,0 +1,125 @@
+﻿triage:
+  deterministic_version: triage-v1
+  origin_thresholds:
+    native_char_density_min: 0.002
+    native_image_ratio_max: 0.20
+    scanned_char_count_max: 20
+    scanned_image_ratio_min: 0.60
+  layout_thresholds:
+    multi_column_x_clusters_min: 2
+    table_grid_score_min: 0.35
+    figure_heavy_image_ratio_min: 0.45
+  language:
+    fallback_code: und
+    fallback_confidence: 0.50
+  domain_keywords:
+    financial: [balance, invoice, revenue, tax]
+    legal: [agreement, clause, contract, statute]
+    technical: [architecture, api, module, protocol]
+    medical: [diagnosis, patient, treatment, clinical]
+  cost_mapping:
+    scanned_image: needs_vision_model
+    figure_heavy: needs_vision_model
+    layout_complex: needs_layout_model
+    default: fast_text_sufficient
+
+extraction:
+  router:
+    rule_version: extraction-v1
+  fast_text:
+    confidence_signals:
+      char_count_min: 200
+      char_density_min: 0.001
+      image_ratio_max: 0.35
+      font_metadata_required: false
+    weights:
+      char_count: 0.35
+      char_density: 0.35
+      image_to_page_ratio: 0.20
+      font_metadata_presence: 0.10
+  escalation:
+    acceptance_thresholds:
+      fast_text: 0.70
+      layout_aware: 0.75
+      vision: 0.78
+  layout_aware:
+    provider: docling
+    providers:
+      docling:
+        enabled: true
+        document_timeout_seconds: 180
+        max_pages: 200
+        max_file_size_mb: 100
+        do_table_structure: true
+        force_backend_text: true
+        do_ocr_default: false
+        do_ocr_native_digital: false
+        do_ocr_mixed: true
+        do_ocr_scanned: true
+        do_picture_description: false
+        do_chart_extraction: false
+        generate_page_images: false
+        generate_picture_images: false
+        generate_table_images: false
+        generate_parsed_pages: false
+      mineru:
+        enabled: false
+  vision:
+    provider: openrouter
+    model: openrouter/auto
+    prompt_template_version: v1
+    structured_output_method: json_schema
+    structured_output_retry_max: 1
+    temperature: 0.0
+    request_timeout_seconds: 90
+    max_pages_per_request: 4
+    render_dpi: 144
+    budget_cap_default: 0.15
+    tokens_per_page_estimate: 1200
+    base_prompt_tokens: 300
+    cost_per_1k_tokens: 0.006
+    handwriting_doc_ids: []
+  costing:
+    fast_text_base: 0.001
+    fast_text_per_page: 0.0002
+    layout_base: 0.01
+    layout_per_page: 0.001
+
+chunking:
+  rule_version: chunking-v1
+  max_tokens_per_chunk: 200
+  numbered_list_split_threshold: 200
+  table_row_group_limit: 20
+  reference_resolution_behavior: resolve_if_known
+  section_heading_block_types: [heading]
+  chunking_ledger_path: .refinery/chunking_ledger.jsonl
+
+pageindex:
+  rule_version: pageindex-v1
+  artifact_dir: .refinery/pageindex
+  summary_model_name: openai/gpt-4o-mini
+  max_chunks_per_summary_request: 6
+  summary_temperature: 0.0
+  vector_collection_name: pageindex-ldus
+  vector_persist_directory: .refinery/pageindex/chroma
+  embedding_model: openai/text-embedding-3-small
+  embedding_base_url: https://openrouter.ai/api/v1
+  entity_extraction_stopwords: [section, table, figure, document]
+  entity_max_per_section: 8
+  section_ranking_strategy: lexical_overlap
+  enable_vector_ingestion: true
+query:
+  rule_version: query-v1
+  artifact_dir: .refinery/query
+  ldu_cache_dir: .refinery/query/ldu_cache
+  facts_db_path: .refinery/query/facts.db
+  model_name: openai/gpt-4o-mini
+  temperature: 0.0
+  max_iterations: 4
+  navigation_limit: 5
+  semantic_limit: 5
+  structured_limit: 5
+  vector_collection_name: pageindex-ldus
+  vector_persist_directory: .refinery/pageindex/chroma
+  embedding_model: openai/text-embedding-3-small
+  embedding_base_url: https://openrouter.ai/api/v1

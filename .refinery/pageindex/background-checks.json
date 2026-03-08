@@ -1,0 +1,98 @@
+{
+  "artifact_path": ".refinery\\pageindex\\background-checks.json",
+  "chunk_count": 11,
+  "doc_id": "background-checks",
+  "generated_at": "2026-03-07T22:21:31.838112Z",
+  "metadata": {
+    "chunk_ids": [
+      "background-checks-section_text-0001",
+      "background-checks-section_text-0002",
+      "background-checks-section_text-0003",
+      "background-checks-section_text-0004",
+      "background-checks-section_text-0005",
+      "background-checks-section_text-0006",
+      "background-checks-section_text-0007",
+      "background-checks-section_text-0008",
+      "background-checks-section_text-0009",
+      "background-checks-section_text-0010",
+      "background-checks-section_text-0011"
+    ]
+  },
+  "root_sections": [
+    {
+      "child_sections": [],
+      "chunk_ids": [
+        "background-checks-section_text-0001",
+        "background-checks-section_text-0002",
+        "background-checks-section_text-0003",
+        "background-checks-section_text-0004",
+        "background-checks-section_text-0005",
+        "background-checks-section_text-0006",
+        "background-checks-section_text-0007",
+        "background-checks-section_text-0008",
+        "background-checks-section_text-0009",
+        "background-checks-section_text-0010",
+        "background-checks-section_text-0011"
+      ],
+      "data_types_present": [
+        "narrative_text"
+      ],
+      "doc_id": "background-checks",
+      "id": "background-checks-section-6b34746bb927",
+      "key_entities": [
+        "NICS",
+        "Other Handgun Long Gun",
+        "DISCLAIMERS",
+        "NOTES",
+        "Disposition Rentals Private Sale Return",
+        "Firearm Background Checks November",
+        "Mariana Islands",
+        "Multiple Admin Handgun Long Gun"
+      ],
+      "metadata": {
+        "content_hashes": [
+          "cf9f350d77a1c570431d9688ae62529a05e1dc27497597c33dab554438fddd79",
+          "71760198edcb16e38998da17219eee8d4421fd864bd2114a9a8358fcb113fe57",
+          "4669d8643cb8afdf21e7ad588a190866362f9e5457275c6dfa17921f84c4eb12",
+          "b18de3a46eeec69a9c5e17e4ac875148b0bc8fb62ce7410f02a70111d817741c",
+          "ef8a9f2477ab3d8f5a4c538cf68b21f4de3a9fb6fd557566ec39c55a029cb35d",
+          "89e29b90eb994fbb8b9d9ad89cae6f51db84ccacd10c6d1bfc166d62374dd4ab",
+          "8948c786112570ab025ba985fe33eb6c5461546fcaf72af050b3cbaa79ce7b98",
+          "6e44e3906a31ca951f2e18411fe639b6591812a250ee8b364fc507ca76904d41",
+          "5ae5c2aaec38c5bff0a9521d094676601dc1df3c17185c9704193c5e1309bf39",
+          "6d73e950030329a979b81c6d735f2577999ad677237bef838a8b19f6e1cac38a",
+          "9ffda93b6d26e4fd6c90d687408eb0f7f6612f1ee4b3c791520f98c47091ff4c"
+        ],
+        "direct_chunk_ids": [
+          "background-checks-section_text-0001",
+          "background-checks-section_text-0002",
+          "background-checks-section_text-0003",
+          "background-checks-section_text-0004",
+          "background-checks-section_text-0005",
+          "background-checks-section_text-0006",
+          "background-checks-section_text-0007",
+          "background-checks-section_text-0008",
+          "background-checks-section_text-0009",
+          "background-checks-section_text-0010",
+          "background-checks-section_text-0011"
+        ],
+        "section_path": "Document",
+        "summary_source_chunk_ids": [
+          "background-checks-section_text-0001",
+          "background-checks-section_text-0002",
+          "background-checks-section_text-0003",
+          "background-checks-section_text-0004",
+          "background-checks-section_text-0005",
+          "background-checks-section_text-0006"
+        ]
+      },
+      "page_end": 1,
+      "page_start": 1,
+      "parent_section_id": null,
+      "summary": "The document provides data on NICS firearm background checks across various states and territories for November 2015. It includes detailed statistics on different categories such as permit checks, private sales, and returns, with totals for each state listed. For example, California had a total of 180,116 checks, while Kentucky reported 295,891 checks, indicating significant variations in background check volumes across states.",
+      "title": "Document"
+    }
+  ],
+  "rule_version": "pageindex-v1",
+  "section_count": 1
+}

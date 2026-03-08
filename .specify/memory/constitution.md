@@ -1,116 +1,124 @@
 <!--
 Sync Impact Report
-- Version change: template (unversioned) -> 1.0.0
+- Version change: N/A (empty) -> 1.0.0
 - Modified principles:
-  - Template Principle 1 -> I. Modular Architecture and Typed Contracts (NON-NEGOTIABLE)
-  - Template Principle 2 -> II. Test Discipline and Deterministic Processing (NON-NEGOTIABLE)
-  - Template Principle 3 -> III. Provenance and Data Integrity Guarantees (NON-NEGOTIABLE)
-  - Template Principle 4 -> IV. Performance and Cost-Aware Escalation (NON-NEGOTIABLE)
-  - Template Principle 5 -> V. Configuration-Driven Extensibility
-  - Added principle -> VI. Auditability and Operational Observability (NON-NEGOTIABLE)
+  - N/A -> I. Typed Contracts
+  - N/A -> II. Determinism First
+  - N/A -> III. Auditability and Provenance
+  - N/A -> IV. Cost and Risk Control
+  - N/A -> V. Validation and Testing
+  - N/A -> VI. Separation of Concerns
+  - N/A -> VII. Operability and Extensibility
 - Added sections:
-  - Non-Negotiable Invariants and Violation Handling
+  - Operational Requirements
   - Delivery Workflow and Quality Gates
+  - Governance
 - Removed sections:
   - None
 - Templates requiring updates:
-  - .specify/templates/plan-template.md: updated
-  - .specify/templates/spec-template.md: updated
-  - .specify/templates/tasks-template.md: updated
-  - .specify/templates/commands/*.md: pending (directory not present)
-  - README.md: reviewed, no principle-reference changes required
-  - docs/quickstart.md: reviewed, file not present
-  - .codex/AGENTS.md: reviewed, no principle-reference changes required
-- Follow-up TODOs:
-  - TODO(COMMAND_TEMPLATES): create `.specify/templates/commands/` or confirm intentionally omitted.
+  - [updated] .specify/templates/plan-template.md
+  - [updated] .specify/templates/spec-template.md
+  - [updated] .specify/templates/tasks-template.md
+  - [pending: path missing] .specify/templates/commands/*.md
+  - [updated] README.md
+- Deferred TODOs:
+  - None
 -->
-# The Document Intelligence Refinery Constitution
+
+# Synthesis AI Engineering Constitution
 
 ## Core Principles
 
-### I. Modular Architecture and Typed Contracts (NON-NEGOTIABLE)
-All pipeline stages MUST enforce strict modular boundaries. The extraction layer MUST
-use a Strategy pattern, and agent orchestration logic MUST remain separate from
-extraction strategy implementations. Domain payloads exchanged between stages MUST use
-typed Pydantic models. Untyped dictionaries are prohibited at stage boundaries.
-Rationale: strong contracts prevent hidden coupling and reduce silent runtime failures.
+### I. Typed Contracts
 
-### II. Test Discipline and Deterministic Processing (NON-NEGOTIABLE)
-The codebase MUST include unit tests for document classification, confidence scoring,
-and escalation routing. It MUST include validation tests for chunking invariants and
-regression tests for known extraction failures. Chunking behavior MUST be deterministic
-for identical inputs and configuration.
-Rationale: determinism and regression protection are required for production stability.
+- Every stage boundary MUST use explicit Pydantic schemas.
+- Raw provider payloads MUST be normalized before crossing stage boundaries.
+- Invalid stage outputs MUST fail closed and surface structured errors.
+  Rationale: typed contracts prevent schema drift and silent corruption.
 
-### III. Provenance and Data Integrity Guarantees (NON-NEGOTIABLE)
-Every extracted unit MUST include `page_number` and `bounding_box`. Every LDU MUST
-include `content_hash`. The system MUST NOT return answers without provenance metadata.
-An escalation guard MUST block low-confidence outputs from downstream consumption.
-Rationale: traceable evidence is required for trustworthy document intelligence.
+### II. Determinism First
 
-### IV. Performance and Cost-Aware Escalation (NON-NEGOTIABLE)
-Fast text extraction MUST be attempted first. Automatic escalation MUST occur only when
-confidence is below configured thresholds. Vision extraction MUST enforce a
-per-document cost budget. Strategy usage and cost MUST be recorded in a ledger.
-Rationale: predictable latency and spend control are core production constraints.
+- Deterministic logic MUST be used when measurable signals can solve the task.
+- Routing and escalation decisions MUST be implemented outside the LLM unless a
+  stage explicitly requires model reasoning.
+- Given identical input, rules, and dependencies, routing outcomes MUST be
+  reproducible where practical.
+  Rationale: deterministic control reduces variance and operational risk.
 
-### V. Configuration-Driven Extensibility
-New extraction strategies MUST be onboarded through configuration (YAML) rather than
-hard-coded rewrites. New document types MUST be introduced by configuration updates.
-Vector store and fact table integrations MUST be pluggable through stable interfaces.
-Rationale: extensibility must not require risky structural rewrites.
+### III. Auditability and Provenance
 
-### VI. Auditability and Operational Observability (NON-NEGOTIABLE)
-All extraction attempts MUST be logged to `extraction_ledger.jsonl` with strategy,
-confidence, routing decision, and estimated cost fields. Processing duration MUST be
-recorded per document and per strategy attempt. Strategy decisions MUST be auditable
-from logs without requiring source-code inspection.
-Rationale: production operations require forensic-quality audit trails.
+- Every stage MUST emit auditable artifacts or structured logs.
+- Downstream answers MUST be traceable to source location metadata.
+- Rule versions and threshold references MUST be persisted for each decision.
+  Rationale: traceability is required for debugging, compliance, and trust.
 
-## Non-Negotiable Invariants and Violation Handling
+### IV. Cost and Risk Control
 
-- Invariants labeled NON-NEGOTIABLE are release-blocking.
-- Any pull request that violates a non-negotiable invariant MUST be rejected until fixed.
-- Runtime detection of a non-negotiable violation MUST fail closed: no downstream answer
-  emission, explicit error event, and ledger entry with violation code.
-- Escalation-guard violations MUST trigger immediate halt of downstream publication for
-  the affected document.
-- Temporary exceptions require written waiver approval by two maintainers, a scope limit,
-  an expiry date, and linked remediation tasks.
+- Expensive model usage MUST be budget-aware and explicitly bounded.
+- Escalation to more expensive strategies MUST be rule-driven and observable.
+- Low-confidence outputs MUST NOT pass silently downstream.
+  Rationale: uncontrolled escalation causes avoidable cost and quality failures.
+
+### V. Validation and Testing
+
+- Every stage MUST have unit-testable core logic.
+- Constitution invariants MUST be enforced by validation and tests, not only by
+  convention.
+- Repeated runs with the same configuration SHOULD be reproducible; exceptions
+  MUST be documented.
+  Rationale: governance without enforceable tests is not reliable governance.
+
+### VI. Separation of Concerns
+
+- Agents MUST orchestrate flow and state transitions.
+- Strategies MUST perform bounded extraction work behind stable interfaces.
+- Models MUST define contracts and validation rules.
+- Transformation and validation logic MUST remain modular and independently
+  testable.
+  Rationale: modular boundaries enable safe iteration and lower coupling risk.
+
+### VII. Operability and Extensibility
+
+- The system MUST be inspectable through persisted artifacts, structured logs,
+  and explicit stage boundaries.
+- New document types SHOULD be onboarded through configuration and adapters
+  before architectural rewrites are considered.
+- Operational failure modes MUST return actionable error categories.
+  Rationale: production systems must be operable and evolve without rework loops.
+
+## Operational Requirements
+
+- Stage outputs MUST include provenance fields (`page_number`, `bounding_box`,
+  `content_hash`) where applicable.
+- Extraction routing MUST support explicit confidence thresholds and fail-closed
+  behavior.
+- Ledger artifacts MUST record strategy, confidence, cost estimate, timing,
+  escalation, and rule references.
+- Configuration values affecting routing, thresholds, and budgets MUST be
+  externalized and versioned.
 
 ## Delivery Workflow and Quality Gates
 
-- Plan-phase Constitution Check MUST map each principle to concrete implementation tasks
-  and test evidence before coding starts.
-- Spec documents MUST define provenance fields, confidence thresholds, escalation policy,
-  deterministic chunking expectations, and budget constraints.
-- Task plans MUST include explicit work items for typed models, strategy interfaces,
-  provenance enforcement, ledger logging, and mandatory test suites.
-- Merge criteria require passing unit, validation, and regression tests plus review
-  confirmation that no untyped inter-stage payloads remain.
+- Plan artifacts MUST include a constitution check before research and after
+  design.
+- Specs MUST define non-negotiable invariants for typed contracts, provenance,
+  escalation guard, determinism, cost control, and observability.
+- Tasks MUST include validation and regression coverage for governed behavior.
+- Pull requests MUST demonstrate compliance through test evidence and artifact
+  traces.
 
 ## Governance
 
-This constitution overrides conflicting local conventions for architecture, testing,
-and release criteria in The Document Intelligence Refinery.
+- This constitution supersedes conflicting local conventions for this repository.
+- Amendments MUST include: rationale, impact analysis, migration steps, and a
+  semantic version bump decision.
+- Versioning policy:
+  - MAJOR: incompatible governance changes or principle removals/redefinitions.
+  - MINOR: new principle/section or materially expanded mandatory guidance.
+  - PATCH: clarifications and wording refinements without semantic change.
+- Compliance review expectations:
+  - Every feature plan MUST pass constitution gates before implementation.
+  - Every implementation PR MUST show tests and artifacts proving compliance.
+  - Violations MUST be resolved or explicitly waived with documented approval.
 
-Amendment process:
-- Propose changes via pull request that includes rationale, migration impact, and update
-  notes for affected templates and guides.
-- Approval requires at least two maintainers.
-- Ratified amendments MUST include a semantic version bump justification.
-
-Versioning policy:
-- MAJOR: incompatible governance changes, principle removals, or redefinition of
-  non-negotiable guarantees.
-- MINOR: new principle or materially expanded mandatory guidance.
-- PATCH: clarifications, wording improvements, typo fixes, and non-semantic edits.
-
-Compliance review expectations:
-- Every feature plan and pull request MUST include an explicit constitution compliance
-  check.
-- Quarterly audits MUST sample merged changes for adherence to typed contracts,
-  provenance guarantees, escalation controls, and ledger completeness.
-
-**Version**: 1.0.0 | **Ratified**: 2026-03-03 | **Last Amended**: 2026-03-03
-
+**Version**: 1.0.0 | **Ratified**: 2026-03-07 | **Last Amended**: 2026-03-07
