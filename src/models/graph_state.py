@@ -9,6 +9,13 @@ from .document_profile import DocumentProfile
 from .extracted_document import ExtractedDocument, ExtractionAttemptRecord
 from .ldu import LDU
 from .page_index import PageIndexDocument, SectionCandidate
+from .query_result import (
+    PageIndexNavigationResult,
+    QueryRequest,
+    QueryResult,
+    SemanticSearchHit,
+    StructuredQueryRow,
+)
 
 
 class GraphState(BaseModel):
@@ -32,4 +39,12 @@ class GraphState(BaseModel):
     section_candidates: list[SectionCandidate] = Field(default_factory=list)
     indexing_error: str | None = None
     indexing_meta: dict[str, Any] = Field(default_factory=dict)
+    query_request: QueryRequest | None = None
+    query_result: QueryResult | None = None
+    query_messages: list[dict[str, Any]] = Field(default_factory=list)
+    navigation_candidates: list[PageIndexNavigationResult] = Field(default_factory=list)
+    semantic_hits: list[SemanticSearchHit] = Field(default_factory=list)
+    structured_rows: list[StructuredQueryRow] = Field(default_factory=list)
+    query_error: str | None = None
+    query_meta: dict[str, Any] = Field(default_factory=dict)
 

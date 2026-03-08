@@ -8,6 +8,7 @@ from typing import Any
 
 from src.config.env import ensure_env_loaded
 from src.models.ldu import LDU
+from src.query.chroma_client import create_persistent_client
 
 
 class VectorIngestionError(RuntimeError):
@@ -62,10 +63,9 @@ class VectorIngestor:
 
     def _default_client(self) -> Any:
         try:
-            import chromadb
+            return create_persistent_client(self.persist_directory)
         except ImportError as exc:  # pragma: no cover - runtime dependency guard
             raise VectorIngestionError("vector_ingestion_failed") from exc
-        return chromadb.PersistentClient(path=self.persist_directory)
 
     def _embedding_function(self) -> Any:
         ensure_env_loaded()
@@ -89,7 +89,17 @@ class VectorIngestor:
             "doc_id": chunk.doc_id,
             "section_id": str(section_meta.get("section_id", "")),
             "section_title": str(section_meta.get("section_title", "")),
+            "page_number": min(chunk.page_refs),
             "page_refs": ",".join(str(page) for page in chunk.page_refs),
+            "bounding_box": ",".join(
+                str(value)
+                for value in (
+                    chunk.bounding_box.x0,
+                    chunk.bounding_box.y0,
+                    chunk.bounding_box.x1,
+                    chunk.bounding_box.y1,
+                )
+            ),
             "chunk_type": chunk.chunk_type,
             "content_hash": chunk.content_hash,
         }
@@ -103,3 +113,31 @@ class _LangChainEmbeddingAdapter:
 
     def __call__(self, input: list[str]) -> list[list[float]]:
         return self._embeddings.embed_documents(input)
+
+    def embed_documents(self, input: list[str]) -> list[list[float]]:
+        return self._embeddings.embed_documents(input)
+
+    def embed_query(self, input: str | list[str]) -> list[list[float]] | list[float]:
+        if isinstance(input, list):
+            return [self._embeddings.embed_query(text) for text in input]
+        return self._embeddings.embed_query(input)
+
+    @staticmethod
+    def name() -> str:
+        return "langchain_openai_embeddings"
+
+    @staticmethod
+    def is_legacy() -> bool:
+        return False
+
+    @staticmethod
+    def default_space() -> str:
+        return "cosine"
+
+    @staticmethod
+    def supported_spaces() -> list[str]:
+        return ["cosine", "l2", "ip"]
+
+    @staticmethod
+    def get_config() -> dict[str, Any]:
+        return {"name": "langchain_openai_embeddings", "space": "cosine"}

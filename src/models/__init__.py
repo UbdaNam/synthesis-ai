@@ -29,6 +29,23 @@ from .page_index import (
     SectionSummaryRequest,
     SectionSummaryResult,
 )
+from .provenance_chain import ProvenanceChain, ProvenanceChainItem
+from .query_result import (
+    AuditDecisionDraft,
+    AuditResult,
+    NavigationSectionHit,
+    PageIndexNavigationResult,
+    QueryAnswerDraft,
+    QueryMode,
+    QueryRequest,
+    QueryResult,
+    RetrievalToolName,
+    SemanticSearchHit,
+    SemanticSearchResult,
+    StructuredQueryResult,
+    StructuredQueryRow,
+    SupportStatus,
+)
 
 __all__ = [
     "BoundingBox",
@@ -48,13 +65,29 @@ __all__ = [
     "OriginType",
     "PageIndexDocument",
     "PageIndexNode",
+    "PageIndexNavigationResult",
+    "ProvenanceChain",
+    "ProvenanceChainItem",
+    "QueryAnswerDraft",
+    "QueryMode",
+    "QueryRequest",
+    "QueryResult",
+    "RetrievalToolName",
+    "SemanticSearchHit",
+    "SemanticSearchResult",
     "RelationshipType",
     "SectionCandidate",
     "SectionSummaryRequest",
     "SectionSummaryResult",
     "StrategyName",
+    "StructuredQueryResult",
+    "StructuredQueryRow",
+    "SupportStatus",
     "StructuredTable",
     "TextBlock",
     "VisionInvocationMetadata",
+    "AuditDecisionDraft",
+    "AuditResult",
+    "NavigationSectionHit",
 ]
 
