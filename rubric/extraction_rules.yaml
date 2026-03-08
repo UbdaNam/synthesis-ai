@@ -108,3 +108,18 @@ pageindex:
   entity_max_per_section: 8
   section_ranking_strategy: lexical_overlap
   enable_vector_ingestion: true
+query:
+  rule_version: query-v1
+  artifact_dir: .refinery/query
+  ldu_cache_dir: .refinery/query/ldu_cache
+  facts_db_path: .refinery/query/facts.db
+  model_name: openai/gpt-4o-mini
+  temperature: 0.0
+  max_iterations: 4
+  navigation_limit: 5
+  semantic_limit: 5
+  structured_limit: 5
+  vector_collection_name: pageindex-ldus
+  vector_persist_directory: .refinery/pageindex/chroma
+  embedding_model: openai/text-embedding-3-small
+  embedding_base_url: https://openrouter.ai/api/v1
